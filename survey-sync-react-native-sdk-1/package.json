@@ -1,5 +1,5 @@
 {
-  "name": "survey-sync-react-native-sdk-1",
+  "name": "survey-sync-react-native-sdk",
   "version": "0.1.0",
   "description": "React native component to use surveys in apps by Survey Sync",
   "source": "./src/index.tsx",
@@ -37,7 +37,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace survey-sync-react-native-sdk-1-example",
+    "example": "yarn workspace survey-sync-react-native-sdk-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -52,14 +52,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alikri/survey-sync-react-native-sdk-1.git"
+    "url": "git+https://github.com/alikri/survey-sync-react-native-sdk.git"
   },
   "author": "Alina Nosovets <alinanosovets6849@gmail.com> (https://github.com/alikri)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alikri/survey-sync-react-native-sdk-1/issues"
+    "url": "https://github.com/alikri/survey-sync-react-native-sdk/issues"
   },
-  "homepage": "https://github.com/alikri/survey-sync-react-native-sdk-1#readme",
+  "homepage": "https://github.com/alikri/survey-sync-react-native-sdk#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

@@ -13356,9 +13356,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"survey-sync-react-native-sdk-1-example@workspace:example":
+"survey-sync-react-native-sdk-example@workspace:example":
   version: 0.0.0-use.local
-  resolution: "survey-sync-react-native-sdk-1-example@workspace:example"
+  resolution: "survey-sync-react-native-sdk-example@workspace:example"
   dependencies:
     "@babel/core": ^7.20.0
     "@expo/metro-runtime": ~4.0.0
@@ -13381,9 +13381,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"survey-sync-react-native-sdk-1@workspace:.":
+"survey-sync-react-native-sdk@workspace:.":
   version: 0.0.0-use.local
-  resolution: "survey-sync-react-native-sdk-1@workspace:."
+  resolution: "survey-sync-react-native-sdk@workspace:."
   dependencies:
     "@commitlint/config-conventional": ^17.0.2
     "@evilmartians/lefthook": ^1.5.0

@@ -1,18 +1,18 @@
-# survey-sync-react-native-sdk-1
+# survey-sync-react-native-sdk
 
 React native component to use surveys in apps by Survey Sync
 
 ## Installation
 
 ```sh
-npm install survey-sync-react-native-sdk-1
+npm install survey-sync-react-native-sdk
 ```
 
 ## Usage
 
 
 ```js
-import { multiply } from 'survey-sync-react-native-sdk-1';
+import { multiply } from 'survey-sync-react-native-sdk';
 
 // ...
 

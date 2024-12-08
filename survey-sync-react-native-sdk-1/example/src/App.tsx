@@ -1,4 +1,4 @@
-import Survey from 'survey-sync-react-native-sdk-1';
+import Survey from 'survey-sync-react-native-sdk';
 
 
 export default function App() {
