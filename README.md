@@ -10,13 +10,28 @@ npm install survey-sync-react-native-sdk
 
 ## Usage
 
-
 ```js
-import { multiply } from 'survey-sync-react-native-sdk';
+import { Survey } from 'survey-sync-react-native-sdk';
 
-// ...
+const App = () => {
+  const theme = 'dark';
+  const onFinishedSurvey = (respondentId: string) => {
+    console.log('Survey finished with respondentId:', respondentId);
+  };
 
-const result = await multiply(3, 7);
+  return (
+    <Survey surveyAlias="7TRpmpzR" onFinishedSurvey={onFinishedSurvey} theme={theme} />
+  );
+};
+```
+
+## Props
+```
+interface AppProps {
+  surveyAlias: string;
+  onFinishedSurvey?: (respondentId: string) => void;
+  theme?: 'light' | 'dark';
+}
 ```
 
 
