@@ -199,7 +199,7 @@
     ]
   },
   "codegenConfig": {
-    "name": "RNSurveySyncReactNativeSdk1Spec",
+    "name": "RNSurveySyncReactNativeSdkSpec",
     "type": "modules",
     "jsSrcsDir": "src",
     "outputDir": {
@@ -207,7 +207,7 @@
       "android": "android/generated"
     },
     "android": {
-      "javaPackageName": "com.surveysyncreactnativesdk1"
+      "javaPackageName": "com.surveysyncreactnativesdk"
     }
   },
   "create-react-native-library": {

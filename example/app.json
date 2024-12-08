@@ -14,14 +14,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "surveysyncreactnativesdk1.example"
+      "bundleIdentifier": "surveysyncreactnativesdk.example"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "surveysyncreactnativesdk1.example"
+      "package": "surveysyncreactnativesdk.example"
     },
     "web": {
       "favicon": "./assets/favicon.png"
