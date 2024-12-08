@@ -1,8 +1,14 @@
 # survey-sync-react-native-sdk
 
-React native component to use surveys in apps by Survey Sync
+A React Native component designed by Survey Sync for seamlessly integrating surveys into your mobile applications.
 
 ## Installation
+
+```sh
+yarn add survey-sync-react-native-sdk
+```
+
+or
 
 ```sh
 npm install survey-sync-react-native-sdk
