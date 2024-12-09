@@ -5,12 +5,6 @@ A React Native component designed by Survey Sync for seamlessly integrating surv
 ## Installation
 
 ```sh
-yarn add survey-sync-react-native-sdk
-```
-
-or
-
-```sh
 npm install survey-sync-react-native-sdk
 ```
 
