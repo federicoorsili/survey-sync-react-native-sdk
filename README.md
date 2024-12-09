@@ -18,7 +18,7 @@ npm install survey-sync-react-native-sdk
 ## Usage
 
 ```js
-import { Survey } from 'survey-sync-react-native-sdk';
+import Survey from 'survey-sync-react-native-sdk';
 
 const App = () => {
   const theme = 'dark';
