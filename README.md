@@ -2,12 +2,19 @@
 
 A React Native component designed by [Survey Sync](https://survey-sync.com) for seamlessly integrating surveys into your mobile applications.
 
+## How to start?
+- Sign in to [Survey Sync](https://survey-sync.com)
+- Create Survey;
+- Publish Survey;
+- Extract alias and follow the instruction below.
+  ![](https://github.com/alikri/survey-sync-assets/blob/main/survey-alias.png)
+
 ## Installation
 
 ```sh
 npm install survey-sync-react-native-sdk
 ```
-
+  
 ## Usage
 
 ```js
