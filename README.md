@@ -11,9 +11,32 @@ A React Native component designed by [Survey Sync](https://survey-sync.com) for 
 
 ## Installation
 
+### NPM:
+
 ```sh
 npm install survey-sync-react-native-sdk
 ```
+or
+
+```sh
+npm install survey-sync-react-native-sdk --legacy-peer-deps 
+```
+
+### YARN:
+
+```sh
+yarn add survey-sync-react-native-sdk
+```
+If you are using yarn, additional packages need to be installed:
+
+```sh
+yarn add @react-native-community/datetimepicker
+yarn add expo-document-picker
+yarn add react-native-modal-datetime-picker 
+yarn add react-native-toast-message 
+yarn add expo-clipboard
+```
+
   
 ## Usage
 
