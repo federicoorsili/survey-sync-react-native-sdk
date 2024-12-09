@@ -321,7 +321,7 @@ const SurveyComponent = ({ alias, onFinishedSurvey }: SurveyComponentProps) => {
   if (!surveyData?.questions || surveyData.questions.length === 0) {
     return (
       <View style={styles.center}>
-        <Text>No questions found in this survey.</Text>
+        <Text>Failed to load survey data.</Text>
       </View>
     );
   }
