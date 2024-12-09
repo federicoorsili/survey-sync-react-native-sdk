@@ -25,8 +25,10 @@ const App = () => {
     console.log('Survey finished with respondentId:', respondentId);
   };
 
+  const aliasString = '7TRpmpzK' // your alias string 
+
   return (
-    <Survey surveyAlias="7TRpmpzR" onFinishedSurvey={onFinishedSurvey} theme={theme} />
+    <Survey surveyAlias={aliasString} onFinishedSurvey={onFinishedSurvey} theme={theme} />
   );
 };
 ```
