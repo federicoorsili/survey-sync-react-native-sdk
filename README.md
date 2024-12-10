@@ -1,17 +1,17 @@
-# survey-sync-react-native-sdk
+# 🛠 survey-sync-react-native-sdk 
 
 A React Native component designed by [Survey Sync](https://survey-sync.com) for seamlessly integrating surveys into your mobile applications.
 
-## How to start?
+## 🤔 How to start?
 - Sign in to [Survey Sync](https://survey-sync.com)
 - Create Survey;
 - Publish Survey;
 - Extract alias and follow the instruction below.
   ![](https://github.com/alikri/survey-sync-assets/blob/main/survey-alias.png)
 
-## Installation
+## 🔧 Installation
 
-### NPM:
+### npm:
 
 ```sh
 npm install survey-sync-react-native-sdk
@@ -21,24 +21,28 @@ or
 ```sh
 npm install survey-sync-react-native-sdk --legacy-peer-deps 
 ```
+‼️ Additional packages may need to be installed to ensure proper functionality
 
-### YARN:
+```sh
+npm install @react-native-community/datetimepicker expo-document-picker react-native-modal-datetime-picker react-native-toast-message expo-clipboard
+```
+
+
+### yarn:
 
 ```sh
 yarn add survey-sync-react-native-sdk
 ```
-If you are using yarn, additional packages need to be installed:
+
+‼️ Additional packages may need to be installed to ensure proper functionality
 
 ```sh
-yarn add @react-native-community/datetimepicker
-yarn add expo-document-picker
-yarn add react-native-modal-datetime-picker 
-yarn add react-native-toast-message 
-yarn add expo-clipboard
+yarn add @react-native-community/datetimepicker expo-document-picker react-native-modal-datetime-picker react-native-toast-message expo-clipboard
+
 ```
 
   
-## Usage
+## 📖 Usage
 
 ```js
 import Survey from 'survey-sync-react-native-sdk';
@@ -49,15 +53,15 @@ const App = () => {
     console.log('Survey finished with respondentId:', respondentId);
   };
 
-  const aliasString = '7TRpmpzK' // your alias string 
+  const alias = '7TRpmpzK' // your alias string 
 
   return (
-    <Survey surveyAlias={aliasString} onFinishedSurvey={onFinishedSurvey} theme={theme} />
+    <Survey surveyAlias={alias} onFinishedSurvey={onFinishedSurvey} theme={theme} />
   );
 };
 ```
 
-## Props
+## 🔗 Props
 ```
 interface AppProps {
   surveyAlias: string;
@@ -66,8 +70,20 @@ interface AppProps {
 }
 ```
 
+## ⚙️ Typescript Settings:
+If you encounter issues related to the 'moduleResolution' setting, add the following to your ```tsconfig.json```
 
-## Contributing
+```
+{
+  "compilerOptions": {
+    "moduleResolution": "Bundler",
+    "resolvePackageJsonImports": false
+  }
+}
+```
+
+
+## 💻 Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
