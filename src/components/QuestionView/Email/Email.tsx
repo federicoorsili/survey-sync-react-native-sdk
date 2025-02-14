@@ -1,26 +1,23 @@
 import { TextInput, View } from 'react-native';
 import { createStyles } from './email.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
-import type {
-  SurveyResponseQuestion,
-  OptionResponse,
-} from '../../../types/types';
+import type { OptionResponse, QuestionDto } from '../../../types/types';
 interface Props {
-  question: SurveyResponseQuestion;
-  response: OptionResponse | OptionResponse[];
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  question: QuestionDto;
+  response: OptionResponse[] | null;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
-const Email = ({ question, response, handleChange }: Props) => {
-  const currentResponse = !Array.isArray(response) ? response?.reply : '';
-
+const Email = ({ response, handleChange }: Props) => {
   const { isDark, theme } = useAppTheme();
   const styles = createStyles(isDark);
+
+  const currentEmail =
+    response && response.length > 0 ? response[0]?.reply : '';
+
+  const handleInputChange = (text: string) => {
+    handleChange([{ optionId: null, reply: text }]);
+  };
 
   return (
     <View style={styles.container}>
@@ -31,12 +28,8 @@ const Email = ({ question, response, handleChange }: Props) => {
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
-        value={currentResponse}
-        onChangeText={(text) => {
-          if (handleChange && question) {
-            handleChange(question.id, text, null, true);
-          }
-        }}
+        value={currentEmail}
+        onChangeText={handleInputChange}
       />
     </View>
   );

@@ -227,3 +227,21 @@ export enum ContentSectionEnum {
   BUTTON = 'button',
   MARKDOWN = 'markdown',
 }
+
+export enum SurveyConnectionType {
+  EQUALS_ANY = 'EQUALS_ANY',
+  EQUALS_EVERY = 'EQUALS_EVERY',
+  CONTAINS = 'CONTAINS',
+  GREATER_THAN = 'GREATER_THAN',
+  LESS_THAN = 'LESS_THAN',
+  GREATER_THAN_OR_EQUAL = 'GREATER_THAN_OR_EQUAL',
+  LESS_THAN_OR_EQUAL = 'LESS_THAN_OR_EQUAL',
+  NOT_EQUAL = 'NOT_EQUAL',
+  STARTS_WITH = 'STARTS_WITH',
+  ENDS_WITH = 'ENDS_WITH',
+}
+
+export enum SurveyType {
+  STANDARD = 'STANDARD',
+  CONDITIONAL = 'CONDITIONAL',
+}

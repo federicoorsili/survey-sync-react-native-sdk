@@ -2,12 +2,15 @@ export interface SurveyStartedResponse {
   id: string;
 }
 
+import type { SurveyResponseData } from '../../lib/typescript/commonjs/src/types/types';
 import {
   FinalPagePropertyName,
   QuestionTypes,
   Sentiment,
   SubscriptionPlan,
+  SurveyConnectionType,
   SurveyStatus,
+  SurveyType,
 } from './enums';
 
 export interface CategoryData {
@@ -52,6 +55,49 @@ export interface CreateSurveyDto {
   questions: QuestionData[];
 }
 
+export interface ConnectionProperties {
+  [key: string]: number;
+}
+
+export interface SaveSurveyConnectionRequest {
+  id?: number;
+  refId: string;
+  sourceQuestionRefId: string;
+  targetQuestionRefId?: string;
+  type: SurveyConnectionType;
+  conditionValues: string[];
+  order: number;
+  properties: null | ConnectionProperties;
+}
+
+export interface QuestionDto {
+  id: number;
+  refId: string;
+  type: QuestionTypes;
+  question: string;
+  required: boolean;
+  order: number;
+  options: OptionResponseData[];
+  connections?: SaveSurveyConnectionRequest[];
+  properties: QuestionProperties | null;
+  createdDate: Date;
+  modifiedDate: Date;
+}
+
+export interface SurveyDto {
+  id: string;
+  alias: string;
+  name: string;
+  description: string;
+  status: SurveyStatus;
+  questions: QuestionDto[];
+  categories: CategoryData[];
+  properties: null | SurveyProperties;
+  type: SurveyType;
+  createdDate: Date;
+  modifiedDate: Date;
+}
+
 // customer response types
 
 export interface OptionResponse {
@@ -81,24 +127,6 @@ export interface SurveyResponseQuestion {
   properties: QuestionProperties | null;
   createdDate: Date;
   modifiedDate: Date;
-}
-
-export interface SurveyResponseData {
-  id: string;
-  alias: string;
-  name: string;
-  description: string;
-  status: SurveyStatus;
-  questions: SurveyResponseQuestion[];
-  categories: CategoryData[];
-  properties: null | SurveyProperties;
-  createdDate: Date;
-  modifiedDate: Date;
-}
-
-export interface SurveyReportResponsesData {
-  survey: SurveyResponseData;
-  responses: ReportResponses<SurveyReportResponse>;
 }
 
 // AI builder types
@@ -306,6 +334,24 @@ export interface SelectedResponse {
 
 // insights!
 
+export interface LogicalReply {
+  replyId: string;
+  respondentId: string;
+  surveyId: string;
+  questionId: number;
+  optionId: number;
+  reply: string;
+  sentiment: string | null;
+  nonsense: string | null;
+  createdDate: string; // ISO 8601 date string
+  modifiedDate: string; // ISO 8601 date string
+}
+
+export interface LogicalResponse {
+  nextQuestionRefId: string;
+  replies: LogicalReply[];
+}
+
 export interface DropOffRate {
   surveyId: string;
   questionId: number;
@@ -441,4 +487,12 @@ export interface AccountSettingsResponse {
 export interface ImageType {
   src: string;
   alt: string;
+}
+export interface StartSurveyRequest {
+  parameters: Record<string, string[]>;
+}
+
+export interface ResponseByQuestion {
+  questionRefId: string;
+  response: OptionResponse[];
 }

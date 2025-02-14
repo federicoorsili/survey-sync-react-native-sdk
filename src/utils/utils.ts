@@ -5,7 +5,7 @@ import {
   QuotaType,
   ErrorCode,
 } from '../types/enums';
-import type { ReportResponsesReplies } from '../types/types';
+import type { OptionResponse, ReportResponsesReplies } from '../types/types';
 
 type Option = {
   option: string;
@@ -301,4 +301,30 @@ export const formatTimeToHHMMSS = (date: Date): string => {
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const seconds = String(date.getSeconds()).padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
+};
+
+export const compareResponses = (
+  responseA: OptionResponse[] | null,
+  responseB: OptionResponse[] | null
+): boolean => {
+  // If both are null, consider them equal
+  if (!responseA && !responseB) return true;
+
+  // If one is null but the other is not, they're different
+  if (!responseA || !responseB) return false;
+
+  // Check if they differ in length
+  if (responseA.length !== responseB.length) return false;
+
+  // Check each item
+  for (let i = 0; i < responseA.length; i++) {
+    if (
+      responseA[i]?.optionId !== responseB[i]?.optionId ||
+      responseA[i]?.reply !== responseB[i]?.reply
+    ) {
+      return false;
+    }
+  }
+
+  return true;
 };

@@ -1,30 +1,30 @@
-import { useEffect, useState, useRef } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { View, TouchableOpacity, FlatList, Text, Animated } from 'react-native';
 
 import { createStyles } from './likertScale.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
 import type {
-  SurveyResponseQuestion,
   OptionResponse,
-  OptionData,
+  QuestionDto,
+  OptionResponseData,
 } from '../../../types/types';
 
 interface LikertScaleProps {
-  question: SurveyResponseQuestion;
-  handleLikertScaleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number
-  ) => void;
-  response: OptionResponse | OptionResponse[];
+  question: QuestionDto;
+  response: OptionResponse[] | null;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
 const LikertScale = ({
   question,
-  handleLikertScaleChange,
+  handleChange,
   response,
 }: LikertScaleProps) => {
-  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const selectedChoice = useMemo(() => {
+    if (!response || response.length === 0 || !response[0]) return null;
+    const maybeReply = parseInt(response[0].reply, 10);
+    return Number.isNaN(maybeReply) ? null : maybeReply - 1;
+  }, [response]);
 
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
@@ -33,18 +33,6 @@ const LikertScale = ({
   const animatedValues = useRef(
     question.options.map(() => new Animated.Value(0))
   ).current;
-
-  // Animate options when response changes
-  useEffect(() => {
-    if (!Array.isArray(response) && response.reply !== '') {
-      const index = parseInt(response.reply, 10);
-      if (!isNaN(index)) {
-        setSelectedChoice(index - 1);
-        animateOptions(index - 1);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response]);
 
   // Function to animate the options
   const animateOptions = (selectedIndex: number) => {
@@ -57,19 +45,26 @@ const LikertScale = ({
     });
   };
 
-  const handleOptionChange = (index: number, option: OptionData) => {
-    setSelectedChoice(index);
-    animateOptions(index);
-    if (option?.id) {
-      handleLikertScaleChange(question.id, option.option, option.id);
+  useEffect(() => {
+    if (selectedChoice !== null) {
+      animateOptions(selectedChoice);
+    } else {
+      // If no selection is found, set all to 0
+      animateOptions(-1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedChoice]);
+
+  const handleOptionChange = (index: number, option: OptionResponseData) => {
+    animateOptions(index);
+    handleChange([{ optionId: option.id, reply: `${index + 1}` }]);
   };
 
   const renderOption = ({
     item: option,
     index,
   }: {
-    item: OptionData;
+    item: OptionResponseData;
     index: number;
   }) => {
     const isSelected = selectedChoice !== null && index <= selectedChoice;

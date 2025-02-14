@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { View, TouchableOpacity, FlatList, Animated } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -6,27 +6,23 @@ import { createStyles } from './ratings.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
 import { useStarAnimation } from '../../../hooks/useStarAnimation';
 import type {
-  SurveyResponseQuestion,
   OptionResponse,
-  OptionData,
+  QuestionDto,
+  OptionResponseData,
 } from '../../../types/types';
 
 interface LikertScaleProps {
-  question: SurveyResponseQuestion;
-  handleLikertScaleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number
-  ) => void;
-  response: OptionResponse | OptionResponse[];
+  question: QuestionDto;
+  handleChange: (response: OptionResponse[]) => void;
+  response: OptionResponse[] | null;
 }
 
-const Ratings = ({
-  question,
-  handleLikertScaleChange,
-  response,
-}: LikertScaleProps) => {
-  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+const Ratings = ({ question, handleChange, response }: LikertScaleProps) => {
+  const selectedChoice = useMemo(() => {
+    if (!response || response.length === 0 || !response[0]) return null;
+    const maybeReply = parseInt(response[0].reply, 10);
+    return Number.isNaN(maybeReply) ? null : maybeReply - 1;
+  }, [response]);
 
   const { animateStars, getAnimatedStyle } = useStarAnimation({
     totalStars: question.options.length,
@@ -36,29 +32,25 @@ const Ratings = ({
   const styles = createStyles(isDark);
 
   useEffect(() => {
-    if (!Array.isArray(response) && response.reply !== '') {
-      const index = parseInt(response.reply, 10);
-      if (!isNaN(index)) {
-        setSelectedChoice(index - 1);
-        animateStars(index - 1, null);
+    if (selectedChoice !== null && response && response[0]?.reply) {
+      const extractValue = parseInt(response[0].reply, 10);
+      if (!isNaN(extractValue)) {
+        animateStars(extractValue - 1, null);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [response]);
+  }, [selectedChoice]);
 
-  const handleOptionChange = (index: number, option: OptionData) => {
-    setSelectedChoice(index);
+  const handleOptionChange = (index: number, option: OptionResponseData) => {
     animateStars(index, selectedChoice);
-    if (option?.id) {
-      handleLikertScaleChange(question.id, option.option, option.id);
-    }
+    handleChange([{ optionId: option.id, reply: String(index + 1) }]);
   };
 
   const renderOption = ({
     item: option,
     index,
   }: {
-    item: OptionData;
+    item: OptionResponseData;
     index: number;
   }) => {
     const shouldFill = selectedChoice !== null && index <= selectedChoice;

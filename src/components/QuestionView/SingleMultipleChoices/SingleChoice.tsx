@@ -1,8 +1,9 @@
-import React from 'react';
+import { useMemo, useState } from 'react';
 import {
   FlatList,
   Image,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
   type ListRenderItem,
@@ -10,20 +11,15 @@ import {
 import { createStyles } from './singleMultipleChoice.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
 import type {
-  SurveyResponseQuestion,
   OptionResponse,
   OptionResponseData,
+  QuestionDto,
 } from '../../../types/types';
 
 interface SingleQuestionReplyProps {
-  question: SurveyResponseQuestion;
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
-  response: OptionResponse | OptionResponse[];
+  question: QuestionDto;
+  handleChange: (response: OptionResponse[]) => void;
+  response: OptionResponse[] | null;
 }
 
 const SingleChoice = ({
@@ -31,28 +27,46 @@ const SingleChoice = ({
   handleChange,
   response,
 }: SingleQuestionReplyProps) => {
-  const currentResponse =
-    !Array.isArray(response) && response ? response.optionId : null;
-
-  const { isDark } = useAppTheme();
+  const { isDark, theme } = useAppTheme();
   const styles = createStyles(isDark);
 
-  const [selectedOptionId, setSelectedOptionId] = React.useState<number | null>(
-    currentResponse
-  );
+  const [input, setInput] = useState('');
 
-  const handlePress = (item: OptionResponseData) => {
-    setSelectedOptionId(item.id);
-    handleChange(question.id, item.option, item.id, true);
+  const selectedChoice = useMemo(() => {
+    if (response && response.length > 0) {
+      return response[0];
+    }
+    return null;
+  }, [response]);
+
+  const handleSingleChoiceChange = (option: OptionResponseData) => {
+    const newResponse = { optionId: option.id, reply: option.option };
+    handleChange([newResponse]);
+  };
+
+  const handleInputChange = (text: string) => {
+    setInput(text);
+  };
+
+  const handleInputBlur = () => {
+    handleChange([{ optionId: null, reply: input }]);
+    setInput('');
+  };
+
+  const handleInputFocus = () => {
+    handleChange([]);
   };
 
   const renderOption: ListRenderItem<OptionResponseData> = ({ item }) => {
-    const isSelected = item.id === selectedOptionId;
+    const isSelected = item.id === selectedChoice?.optionId;
 
     // Conditional rendering for image options
     if (item.imageUrl) {
       return (
-        <TouchableOpacity onPress={() => handlePress(item)} activeOpacity={1}>
+        <TouchableOpacity
+          onPress={() => handleSingleChoiceChange(item)}
+          activeOpacity={1}
+        >
           <View
             style={[
               styles.imageOptionContainer,
@@ -74,7 +88,7 @@ const SingleChoice = ({
 
     // Render text-only options
     return (
-      <TouchableOpacity onPress={() => handlePress(item)}>
+      <TouchableOpacity onPress={() => handleSingleChoiceChange(item)}>
         <View style={[[styles.option, isSelected && styles.selectedOption]]}>
           <Text
             style={[styles.optionText, isSelected && styles.selectedOptionText]}
@@ -95,6 +109,16 @@ const SingleChoice = ({
         renderItem={renderOption}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.optionsList}
+      />
+      <TextInput
+        style={styles.textInput}
+        placeholder="Type here"
+        placeholderTextColor={theme.text.tertiary}
+        multiline={true}
+        value={input}
+        onChangeText={handleInputChange}
+        onBlur={handleInputBlur}
+        onFocus={handleInputFocus}
       />
     </View>
   );

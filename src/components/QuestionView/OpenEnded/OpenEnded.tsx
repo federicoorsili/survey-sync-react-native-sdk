@@ -1,28 +1,22 @@
 import { useAppTheme } from '../../../context/ThemeContext';
-import type {
-  OptionResponse,
-  SurveyResponseQuestion,
-} from '../../../types/types';
+import type { OptionResponse } from '../../../types/types';
 import { createStyles } from './openEnded.styles';
-import { View, TextInput, Text } from 'react-native';
+import { View, TextInput } from 'react-native';
 
 interface OpenEndedProps {
-  question: SurveyResponseQuestion;
-  response: OptionResponse | OptionResponse[];
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  response: OptionResponse[] | null;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
-const OpenEnded = ({ question, response, handleChange }: OpenEndedProps) => {
-  if (!question) return <Text>Question data is missing!</Text>;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const OpenEnded = ({ response, handleChange }: OpenEndedProps) => {
   const { isDark, theme } = useAppTheme();
   const styles = createStyles(isDark);
+  const currentReply =
+    response && response.length > 0 ? response[0]?.reply : '';
+
+  const handleInputChange = (text: string) => {
+    handleChange([{ optionId: null, reply: text }]);
+  };
 
   return (
     <View style={styles.container}>
@@ -31,8 +25,8 @@ const OpenEnded = ({ question, response, handleChange }: OpenEndedProps) => {
         placeholder="Type here"
         placeholderTextColor={theme.text.tertiary}
         multiline={true}
-        value={!Array.isArray(response) && response.reply ? response.reply : ''}
-        onChangeText={(text) => handleChange(question.id, text, null, false)}
+        value={currentReply}
+        onChangeText={(text) => handleInputChange(text)}
       />
     </View>
   );

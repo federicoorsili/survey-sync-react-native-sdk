@@ -26,7 +26,6 @@ const DateComponent = ({ question, response, handleChange }: Props) => {
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
 
-  // Parse the `reply` string in `DD/MM/YYYY` format into a Date object
   let initialDate: Date | null = null;
   if (reply) {
     const [dd, mm, yyyy] = reply.split('/').map(Number);

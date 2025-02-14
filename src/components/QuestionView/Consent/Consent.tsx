@@ -1,48 +1,32 @@
 import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { createStyles } from './consent.styles';
-import type {
-  OptionResponse,
-  SurveyResponseQuestion,
-} from '../../../types/types';
+import type { OptionResponse, QuestionDto } from '../../../types/types';
 import { useAppTheme } from '../../../context/ThemeContext';
 
 interface Props {
-  question: SurveyResponseQuestion;
-  response: OptionResponse | OptionResponse[];
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  question: QuestionDto;
+  handleChange: (response: OptionResponse[]) => void;
+  response: OptionResponse[] | null;
 }
 
 const Consent = ({ question, response, handleChange }: Props) => {
-  const [consent, setConsent] = useState<boolean>(false);
-
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
 
-  useEffect(() => {
-    if (
-      !Array.isArray(response) &&
-      response.reply &&
-      response.reply.length > 0
-    ) {
-      setConsent(true);
-    } else {
-      setConsent(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [question.id]);
+  const reply = response?.[0]?.reply ?? '';
+  const [consent, setConsent] = useState<boolean>(!!reply);
 
-  const handleCheckboxChange = (checked: boolean) => {
-    setConsent(checked);
-    const answer = checked ? question.options[0]?.option : '';
-    if (answer !== undefined) {
-      handleChange(question.id, answer, null, false);
-    }
+  useEffect(() => {
+    setConsent(!!reply);
+  }, [reply]);
+
+  const handleCheckboxChange = (val: boolean) => {
+    setConsent(val);
+    const answer = val ? question.options[0]?.option || '' : '';
+
+    const optionId = val ? (question.options[0]?.id ?? null) : null;
+    handleChange([{ optionId, reply: answer }]);
   };
 
   return (

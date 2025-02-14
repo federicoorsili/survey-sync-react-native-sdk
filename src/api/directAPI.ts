@@ -3,6 +3,8 @@ import type {
   SurveyStartedResponse,
   OptionResponse,
   SurveyReply,
+  StartSurveyRequest,
+  LogicalResponse,
 } from '../types/types';
 import { handleResponse } from './handleResponse';
 
@@ -43,7 +45,8 @@ export const fetchSurveyDataByAlias = async (alias: string) => {
 };
 
 export const startSurvey = async (
-  surveyId: string
+  surveyId: string,
+  startSurveyRequest: StartSurveyRequest
 ): Promise<SurveyStartedResponse> => {
   const url = `${apiUrl}/reply/start/survey/${surveyId}`;
 
@@ -52,6 +55,7 @@ export const startSurvey = async (
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(startSurveyRequest),
   });
 
   return handleResponse(response, 'startSurvey');
@@ -77,6 +81,31 @@ export const submitReply = async (
       questionId: questionId,
       replies: replies.flat(),
       isFinished: isFinished,
+    }),
+  });
+  return handleResponse(response, 'submitReply');
+};
+
+export const submitLogicalReply = async (
+  surveyId: string,
+  respondentId: string,
+  questionId: number,
+  replies: OptionResponse[],
+  isFinished: boolean
+): Promise<LogicalResponse> => {
+  const url = `${apiUrl}/reply/logical`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      surveyId,
+      respondentId,
+      questionId,
+      replies: replies.flat(),
+      isFinished,
     }),
   });
   return handleResponse(response, 'submitReply');

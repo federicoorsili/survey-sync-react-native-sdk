@@ -1,22 +1,29 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { StyleSheet } from 'react-native';
+import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
 import { useTheme } from '../../../styles/theme';
 
-export const createStyles = (isDark: boolean) => {
+interface YesNoStyles {
+  container: ViewStyle;
+  optionContainer: ViewStyle;
+  selectedYesContainer: ViewStyle;
+  selectedNoContainer: ViewStyle;
+  optionText: TextStyle;
+  selectedYesText: TextStyle;
+  selectedNoText: TextStyle;
+}
+
+export const createStyles = (isDark: boolean): YesNoStyles => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const theme = useTheme(isDark);
 
-  return StyleSheet.create({
+  return StyleSheet.create<YesNoStyles>({
     container: {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 40,
       marginBottom: 60,
-      color: theme.text.primary,
     },
-
-    option: {
-      color: theme.text.primary,
+    optionContainer: {
       justifyContent: 'center',
       alignItems: 'center',
       width: 100,
@@ -28,28 +35,23 @@ export const createStyles = (isDark: boolean) => {
       backgroundColor: theme.background.primary,
       ...theme.shadows.tiny,
     },
-
-    selectedYes: {
+    selectedYesContainer: {
       borderColor: theme.status.success,
       borderWidth: 2,
     },
-
-    selectedNo: {
+    selectedNoContainer: {
       borderColor: theme.status.error,
       borderWidth: 2,
     },
-
     optionText: {
       fontSize: theme.sizes.medium,
       fontFamily: theme.font.bold,
       color: theme.text.primary,
     },
-
     selectedYesText: {
       color: theme.status.success,
       fontFamily: theme.font.bold,
     },
-
     selectedNoText: {
       color: theme.status.error,
       fontFamily: theme.font.bold,

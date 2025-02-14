@@ -11,6 +11,18 @@ export const createStyles = (isDark: boolean) => {
       paddingVertical: 20,
       paddingHorizontal: 16,
     },
+    textInput: {
+      height: 150,
+      marginVertical: 16,
+      borderWidth: 1,
+      borderColor: theme.border.default,
+      color: theme.text.primary,
+      padding: 8,
+      textAlignVertical: 'top',
+      borderRadius: 4,
+      backgroundColor: theme.background.primary,
+      fontSize: theme.sizes.medium,
+    },
 
     questionText: {
       fontSize: theme.sizes.medium,

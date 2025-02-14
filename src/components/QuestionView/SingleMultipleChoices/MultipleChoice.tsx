@@ -1,29 +1,25 @@
 import { useEffect, useState } from 'react';
+import { createStyles } from './singleMultipleChoice.styles';
 import {
   FlatList,
   Image,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
   type ListRenderItem,
 } from 'react-native';
-import { createStyles } from './singleMultipleChoice.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
 import type {
-  SurveyResponseQuestion,
   OptionResponse,
+  QuestionDto,
   OptionResponseData,
 } from '../../../types/types';
 
 interface SingleQuestionReplyProps {
-  question: SurveyResponseQuestion;
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
-  response: OptionResponse | OptionResponse[];
+  question: QuestionDto;
+  handleChange: (response: OptionResponse[]) => void;
+  response: OptionResponse[] | null;
 }
 
 const MultipleChoice = ({
@@ -31,39 +27,70 @@ const MultipleChoice = ({
   handleChange,
   response,
 }: SingleQuestionReplyProps) => {
-  const [selected, setSelected] = useState<number[]>([]);
+  const selectedOptions = response || [];
+  const [input, setInput] = useState('');
 
-  const { isDark } = useAppTheme();
+  const { isDark, theme } = useAppTheme();
   const styles = createStyles(isDark);
 
   useEffect(() => {
-    if (Array.isArray(response)) {
-      const currentResponse = response
-        .map((r) => r.optionId)
-        .filter((id): id is number => id !== null);
-      setSelected(currentResponse);
+    if (!response) return;
+    if (response && response.length > 0) {
+      const findTextInput = response.find((res) => res.optionId === null);
+      if (findTextInput) {
+        setInput(findTextInput.reply);
+      }
     }
   }, [response]);
 
-  const handlePress = (item: OptionResponseData) => {
-    // Handle multiple selection
-    const isAlreadySelected = selected.includes(item.id);
-    const updatedSelected = isAlreadySelected
-      ? selected.filter((id) => id !== item.id)
-      : [...selected, item.id];
+  const handleMultipleChoiceChange = (option: OptionResponseData) => {
+    const isSelected = selectedOptions.some(
+      (res) => res.optionId === option.id
+    );
 
-    setSelected(updatedSelected);
-    handleChange(question.id, item.option, item.id, !isAlreadySelected);
+    let newSelectedOptions: OptionResponse[];
+    if (isSelected) {
+      newSelectedOptions = selectedOptions.filter(
+        (res) => res.optionId !== option.id
+      );
+    } else {
+      newSelectedOptions = [
+        ...selectedOptions,
+        { optionId: option.id, reply: option.option },
+      ];
+    }
+
+    handleChange(newSelectedOptions);
   };
 
+  const handleInputChange = (text: string) => {
+    setInput(text);
+  };
+
+  const handleInputBlur = () => {
+    // If user typed something, sync it to the response array
+    if (input.trim()) {
+      if (response && response.length > 0) {
+        const newSelectedOptions = [
+          ...response,
+          { optionId: null, reply: input },
+        ];
+        handleChange(newSelectedOptions);
+      } else {
+        handleChange([{ optionId: null, reply: input }]);
+      }
+      // Clear local input state if desired
+      setInput('');
+    }
+  };
   const renderOption: ListRenderItem<OptionResponseData> = ({ item }) => {
-    const isSelected = selected.includes(item.id);
+    const isSelected = selectedOptions.some((res) => res.optionId === item.id);
 
     // Conditional rendering for image options
     if (item.imageUrl) {
       return (
         <TouchableOpacity
-          onPress={() => handlePress(item)}
+          onPress={() => handleMultipleChoiceChange(item)}
           activeOpacity={1} // Prevents the default opacity effect
         >
           <View
@@ -87,7 +114,7 @@ const MultipleChoice = ({
 
     // Render text-only options
     return (
-      <TouchableOpacity onPress={() => handlePress(item)}>
+      <TouchableOpacity onPress={() => handleMultipleChoiceChange(item)}>
         <View style={[[styles.option, isSelected && styles.selectedOption]]}>
           <Text
             style={[styles.optionText, isSelected && styles.selectedOptionText]}
@@ -108,6 +135,15 @@ const MultipleChoice = ({
         renderItem={renderOption}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.optionsList}
+      />
+      <TextInput
+        style={styles.textInput}
+        placeholder="Type here"
+        placeholderTextColor={theme.text.tertiary}
+        multiline={true}
+        value={input}
+        onChangeText={handleInputChange}
+        onBlur={handleInputBlur}
       />
     </View>
   );

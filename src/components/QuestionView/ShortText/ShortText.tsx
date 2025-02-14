@@ -1,27 +1,23 @@
 import { View, TextInput } from 'react-native';
 import { createStyles } from './shortText.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
-import type {
-  SurveyResponseQuestion,
-  OptionResponse,
-} from '../../../types/types';
+import type { OptionResponse } from '../../../types/types';
 
 interface Props {
-  question?: SurveyResponseQuestion;
-  response?: OptionResponse | OptionResponse[];
-  handleChange?: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  handleChange: (response: OptionResponse[]) => void;
+  response: OptionResponse[] | null;
 }
 
-const ShortText = ({ handleChange, question, response }: Props) => {
-  const currentResponse = !Array.isArray(response) ? response?.reply : '';
-
+const ShortText = ({ handleChange, response }: Props) => {
   const { isDark, theme } = useAppTheme();
   const styles = createStyles(isDark);
+
+  const currentReply =
+    response && response.length > 0 ? response[0]?.reply : '';
+
+  const handleInputChange = (text: string) => {
+    handleChange([{ optionId: null, reply: text }]);
+  };
 
   return (
     <View style={styles.container}>
@@ -29,12 +25,8 @@ const ShortText = ({ handleChange, question, response }: Props) => {
         style={styles.input}
         placeholder="Answer goes here.."
         placeholderTextColor={theme.text.tertiary}
-        value={currentResponse}
-        onChangeText={(text) => {
-          if (handleChange && question) {
-            handleChange(question.id, text, null, true);
-          }
-        }}
+        value={currentReply}
+        onChangeText={handleInputChange}
         multiline
         numberOfLines={4}
         textAlignVertical="auto"

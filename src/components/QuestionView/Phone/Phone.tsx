@@ -1,27 +1,23 @@
 import { View, TextInput } from 'react-native';
 import { createStyles } from './phone.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
-import type {
-  SurveyResponseQuestion,
-  OptionResponse,
-} from '../../../types/types';
+import type { OptionResponse } from '../../../types/types';
 
 interface Props {
-  question: SurveyResponseQuestion;
-  response: OptionResponse | OptionResponse[];
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  response: OptionResponse[] | null;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
-const Phone = ({ question, response, handleChange }: Props) => {
-  const currentResponse = !Array.isArray(response) ? response?.reply : '';
-
+const Phone = ({ response, handleChange }: Props) => {
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
+
+  const currentNumber =
+    response && response.length > 0 ? response[0]?.reply : '';
+
+  const handleInputChange = (text: string) => {
+    handleChange([{ optionId: null, reply: text }]);
+  };
 
   return (
     <View style={styles.container}>
@@ -30,12 +26,8 @@ const Phone = ({ question, response, handleChange }: Props) => {
         placeholder="+1 123 456 7890"
         placeholderTextColor={styles.placeholder.color}
         keyboardType="phone-pad"
-        value={currentResponse}
-        onChangeText={(text) => {
-          if (handleChange && question) {
-            handleChange(question.id, text, null, true);
-          }
-        }}
+        value={currentNumber}
+        onChangeText={handleInputChange}
       />
     </View>
   );
