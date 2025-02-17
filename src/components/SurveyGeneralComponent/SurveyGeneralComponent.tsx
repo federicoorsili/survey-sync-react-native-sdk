@@ -68,10 +68,6 @@ const SurveyGeneralComponent: React.FC<SurveyComponentProps> = ({
 
         const respId = await startSurvey(fetchedSurvey.id, { parameters });
         setRespondentId(respId.id);
-
-        if (onFinishedSurvey) {
-          onFinishedSurvey(respId.id);
-        }
       } catch (error) {
         console.error('Failed to fetch or start survey:', error);
       } finally {
