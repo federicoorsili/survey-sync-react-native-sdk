@@ -14,15 +14,16 @@ const Consent = ({ question, response, handleChange }: Props) => {
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
 
-  const reply = response?.[0]?.reply ?? '';
-  const [consent, setConsent] = useState<boolean>(!!reply);
+  const [consent, setConsent] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!response) return;
+    const reply = response?.[0]?.reply ?? null;
+
     setConsent(!!reply);
-  }, [reply]);
+  }, [response]);
 
   const handleCheckboxChange = (val: boolean) => {
-    setConsent(val);
     const answer = val ? question.options[0]?.option || '' : '';
 
     const optionId = val ? (question.options[0]?.id ?? null) : null;
