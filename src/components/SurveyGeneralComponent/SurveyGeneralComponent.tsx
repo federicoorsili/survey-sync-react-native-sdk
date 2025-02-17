@@ -80,14 +80,8 @@ const SurveyGeneralComponent: React.FC<SurveyComponentProps> = ({
     };
 
     fetchData();
-  }, [alias, onFinishedSurvey, searchParams]);
-
-  if (!userLogoData || !survey || !respondentId) {
-    return null;
-  }
-
-  // Decide which survey component to show based on type
-  const { type: surveyType } = survey;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading) {
     return (
@@ -97,13 +91,16 @@ const SurveyGeneralComponent: React.FC<SurveyComponentProps> = ({
     );
   }
 
-  if (!survey || !survey?.questions || survey.questions.length === 0) {
+  if (!userLogoData || !survey || !respondentId) {
+    // You can return null or a Text indicating "No data" or an error UI
     return (
       <View style={styles.center}>
-        <Text>Failed to load survey data.</Text>
+        <Text>Data is missing. Please try again.</Text>
       </View>
     );
   }
+
+  const { type: surveyType } = survey;
 
   return (
     <KeyboardAvoidingView
