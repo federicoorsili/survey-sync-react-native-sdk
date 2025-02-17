@@ -60,7 +60,7 @@ const SurveyConditionalView = ({
   const [renderFinalPage, setRenderFinalPage] = useState<boolean>(false);
 
   // "question" and "response" for the currentQuestionIndex
-  const question = questions[currentQuestionIndex] || null;
+  const question = questionsHistory[currentQuestionIndex] || null;
   const storedResponse = responsesByQuestions.find(
     (rbq) => rbq.questionRefId === question?.refId
   );
@@ -115,7 +115,7 @@ const SurveyConditionalView = ({
   };
 
   const handleSubmitResponse = async (): Promise<string | null> => {
-    if (!question) return null;
+    if (!question) return null; // Safety check
 
     try {
       const responseToSubmit = response || [];
@@ -154,9 +154,8 @@ const SurveyConditionalView = ({
 
   const handleNavigation = async (direction: number) => {
     if (direction === 1) {
-      const prevStoredResponse = storedResponse?.response
-        ? storedResponse.response
-        : [];
+      const prevStoredResponse = storedResponse?.response || null;
+
       const hasChanged = !compareResponses(response, prevStoredResponse);
 
       if (hasChanged) {
@@ -192,9 +191,7 @@ const SurveyConditionalView = ({
         }
       }
     } else if (currentQuestionIndex > 0) {
-      const prevStoredResponse = storedResponse?.response
-        ? storedResponse.response
-        : [];
+      const prevStoredResponse = storedResponse?.response || null;
       const hasChanged = !compareResponses(response, prevStoredResponse);
 
       if (hasChanged) {
@@ -205,6 +202,7 @@ const SurveyConditionalView = ({
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
+
   if (!question) {
     return (
       <View style={styles.center}>
@@ -239,10 +237,7 @@ const SurveyConditionalView = ({
           paddingTop: Platform.OS === 'android' ? 50 : 20,
         }}
       >
-        <QuestionCounter
-          questionsSize={questions.length}
-          currentQuestionIndex={currentQuestionIndex}
-        />
+        <QuestionCounter currentQuestionIndex={currentQuestionIndex} />
         <Animated.View
           style={[
             styles.container,

@@ -4,17 +4,24 @@ import { useAppTheme } from '../../context/ThemeContext';
 
 interface Props {
   currentQuestionIndex: number;
-  questionsSize: number;
+  questionsSize?: number;
 }
 
 const QuestionCounter = ({ currentQuestionIndex, questionsSize }: Props) => {
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
+  const isQuestionSizeValid =
+    typeof questionsSize === 'number' && questionsSize !== null;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        {currentQuestionIndex + 1} / {questionsSize}
-      </Text>
+      {isQuestionSizeValid ? (
+        <Text style={styles.text}>
+          {currentQuestionIndex + 1} / {questionsSize}
+        </Text>
+      ) : (
+        <Text style={styles.text}>{currentQuestionIndex + 1}</Text>
+      )}
     </View>
   );
 };
