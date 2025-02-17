@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Animated,
   KeyboardAvoidingView,
   Platform,
@@ -50,6 +51,8 @@ const SurveyConditionalView = ({
   const [questionsHistory, setQuestionsHistory] = useState<QuestionDto[]>([
     questions[0] as QuestionDto,
   ]);
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
@@ -116,7 +119,7 @@ const SurveyConditionalView = ({
 
   const handleSubmitResponse = async (): Promise<string | null> => {
     if (!question) return null; // Safety check
-
+    setLoading(true);
     try {
       const responseToSubmit = response || [];
       const isLastReply = question.order === questions.length - 1;
@@ -138,6 +141,8 @@ const SurveyConditionalView = ({
     } catch {
       console.warn('Failed to submit response');
       return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -260,16 +265,22 @@ const SurveyConditionalView = ({
             <Text style={styles.questionText}>{question.question}</Text>
           </View>
           <View style={styles.questionAnswerWrapper}>
-            <View>
-              <QuestionController
-                question={question}
-                surveyId={survey.id}
-                respondentId={respondentId}
-                handleChange={setResponse}
-                currentQuestionIndex={currentQuestionIndex}
-                response={response}
-              />
-            </View>
+            {loading ? (
+              <View style={styles.center}>
+                <ActivityIndicator size="large" color={theme.text.primary} />
+              </View>
+            ) : (
+              <View>
+                <QuestionController
+                  question={question}
+                  surveyId={survey.id}
+                  respondentId={respondentId}
+                  handleChange={setResponse}
+                  currentQuestionIndex={currentQuestionIndex}
+                  response={response}
+                />
+              </View>
+            )}
           </View>
         </Animated.View>
 
