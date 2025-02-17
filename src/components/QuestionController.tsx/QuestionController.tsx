@@ -13,7 +13,7 @@ import Ratings from '../QuestionView/Ratings/Ratings';
 import ShortText from '../QuestionView/ShortText/ShortText';
 import MultipleChoice from '../QuestionView/SingleMultipleChoices/MultipleChoice';
 import SingleChoice from '../QuestionView/SingleMultipleChoices/SingleChoice';
-// import TimeComponent from '../QuestionView/Time/TimeComponent';
+import TimeComponent from '../QuestionView/Time/TimeComponent';
 import YesNo from '../QuestionView/YesNo/YesNo';
 
 interface Props {
@@ -112,8 +112,8 @@ const QuestionController = ({ question, response, handleChange }: Props) => {
         />
       );
 
-    // case QuestionTypes.TIME:
-    //   return <TimeComponent response={response} handleChange={handleChange} />;
+    case QuestionTypes.TIME:
+      return <TimeComponent response={response} handleChange={handleChange} />;
 
     // case QuestionTypes.DATETIME:
     //   return (

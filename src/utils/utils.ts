@@ -328,3 +328,13 @@ export const compareResponses = (
 
   return true;
 };
+
+export const convertToDDMMYYYYFromIOS = (isoString: string): string => {
+  const date = new Date(isoString); // Parse the ISO string
+
+  const day = date.getUTCDate().toString().padStart(2, '0'); // Ensure two digits
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+  const year = date.getUTCFullYear();
+
+  return `${day}/${month}/${year}`;
+};

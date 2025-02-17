@@ -1,51 +1,56 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { createStyles } from './time.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
-import type {
-  SurveyResponseQuestion,
-  OptionResponse,
-} from '../../../types/types';
+import type { OptionResponse } from '../../../types/types';
 
 interface Props {
-  question: SurveyResponseQuestion;
-  response: OptionResponse | OptionResponse[];
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  response: OptionResponse[] | null;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
-const TimeComponent = ({ question, response, handleChange }: Props) => {
+const TimeComponent = ({ response, handleChange }: Props) => {
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
-  const reply =
-    (response && (!Array.isArray(response) ? response.reply : '')) || '';
-  const [selectedTime, setSelectedTime] = useState<Date | null>(
-    reply ? new Date(`1970-01-01T${reply}`) : null
-  );
-  const [timeDisplay, setTimeDisplay] = useState<string>(
-    reply ? reply.slice(0, 5) : '—:—'
-  ); // Display HH:MM format
-  const [isPickerVisible, setPickerVisible] = useState<boolean>(false);
 
-  const handleConfirm = (time: Date) => {
+  const reply = response ? response[0]?.reply : null;
+
+  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+  const [timeDisplay, setTimeDisplay] = useState<string>('—:—');
+
+  useEffect(() => {
+    if (!reply) {
+      setSelectedTime(null);
+      setTimeDisplay('—:—');
+      return;
+    }
+
+    const dateObj = new Date(reply);
+    if (dateObj) {
+      const hoursCurrent = dateObj.getHours();
+      const minutesCurrent = dateObj.getMinutes();
+      const formattedTime = `${hoursCurrent}:${minutesCurrent}`;
+      setTimeDisplay(formattedTime);
+      setSelectedTime(dateObj);
+    }
+  }, [reply]);
+
+  const handleTimeChange = (time: Date) => {
     setPickerVisible(false);
-    setSelectedTime(time);
 
-    // Format time as HH:MM for display
     const formattedTimeForDisplay = time.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     });
+
     setTimeDisplay(formattedTimeForDisplay);
 
-    const formattedTimeForSubmit = `${formattedTimeForDisplay}:00`;
-    handleChange(question.id, formattedTimeForSubmit, null, false);
+    const answer = time.toISOString();
+    handleChange([{ optionId: null, reply: answer }]);
   };
+
+  const [isPickerVisible, setPickerVisible] = useState<boolean>(false);
 
   const hidePicker = () => setPickerVisible(false);
 
@@ -62,10 +67,10 @@ const TimeComponent = ({ question, response, handleChange }: Props) => {
       <DateTimePickerModal
         isVisible={isPickerVisible}
         mode="time"
-        onConfirm={handleConfirm}
+        onConfirm={handleTimeChange}
         onCancel={hidePicker}
         date={selectedTime || new Date()}
-        is24Hour={true} // 24-hour format
+        is24Hour={true}
       />
     </View>
   );
