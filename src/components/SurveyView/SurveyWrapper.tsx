@@ -7,9 +7,14 @@ import SurveyGeneralComponent from '../SurveyGeneralComponent/SurveyGeneralCompo
 interface SurveyComponentProps {
   alias: string;
   onFinishedSurvey?: (respondentId: string) => void;
+  searchParams?: Record<string, string | string[]>;
 }
 
-const SurveyWrapper = ({ alias, onFinishedSurvey }: SurveyComponentProps) => {
+const SurveyWrapper = ({
+  alias,
+  onFinishedSurvey,
+  searchParams,
+}: SurveyComponentProps) => {
   const { theme } = useAppTheme();
 
   return (
@@ -20,6 +25,7 @@ const SurveyWrapper = ({ alias, onFinishedSurvey }: SurveyComponentProps) => {
       <SurveyGeneralComponent
         alias={alias}
         onFinishedSurvey={onFinishedSurvey}
+        searchParams={searchParams}
       />
     </SafeAreaView>
   );
