@@ -140,9 +140,7 @@ const SurveyStandardView = ({
   const handleNavigation = async (direction: number) => {
     // --------------- Going Forward ---------------
     if (direction === 1) {
-      const prevStoredResponse = storedResponse?.response
-        ? storedResponse.response
-        : null;
+      const prevStoredResponse = storedResponse?.response || null;
       const hasChanged = !compareResponses(response, prevStoredResponse);
 
       if (hasChanged) {
@@ -161,14 +159,20 @@ const SurveyStandardView = ({
       } else {
         const nextIndex = currentQuestionIndex + 1;
         if (nextIndex <= questions.length) {
-          await handleSubmitResponse();
+          if (nextIndex === questions.length) {
+            await handleSubmitResponse();
+            if (onFinishedSurvey) {
+              onFinishedSurvey(respondentId);
+            }
+
+            setRenderFinalPage(true);
+            return;
+          }
           setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
         }
       }
     } else if (currentQuestionIndex > 0) {
-      const prevStoredResponse = storedResponse?.response
-        ? storedResponse.response
-        : null;
+      const prevStoredResponse = storedResponse?.response || null;
       const hasChanged = !compareResponses(response, prevStoredResponse);
 
       if (hasChanged) {

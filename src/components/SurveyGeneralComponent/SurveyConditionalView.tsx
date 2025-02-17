@@ -171,6 +171,7 @@ const SurveyConditionalView = ({
           if (onFinishedSurvey) {
             onFinishedSurvey(respondentId);
           }
+
           setRenderFinalPage(true);
           return;
         }
@@ -188,6 +189,10 @@ const SurveyConditionalView = ({
         } else {
           const nextRefId = await handleSubmitResponse();
           if (nextRefId === null) {
+            if (onFinishedSurvey) {
+              onFinishedSurvey(respondentId);
+            }
+
             setRenderFinalPage(true);
             return;
           }
