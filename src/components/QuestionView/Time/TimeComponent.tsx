@@ -39,11 +39,11 @@ const TimeComponent = ({ response, handleChange }: Props) => {
   const handleTimeChange = (time: Date) => {
     setPickerVisible(false);
 
-    const formattedTimeForDisplay = time.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    const hours = time.getHours().toString().padStart(2, '0');
+    const minutes = time.getMinutes().toString().padStart(2, '0');
 
+    const formattedTimeForDisplay = `${hours}:${minutes}`;
+    setTimeDisplay(formattedTimeForDisplay);
     setTimeDisplay(formattedTimeForDisplay);
 
     const answer = time.toISOString();

@@ -1,119 +1,121 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { createStyles } from './dateTime.styles';
-import type {
-  OptionResponse,
-  SurveyResponseQuestion,
-} from '../../../types/types';
+import type { OptionResponse, QuestionDto } from '../../../types/types';
 import { useAppTheme } from '../../../context/ThemeContext';
-import { formatToDDMMYYYY } from '../../../utils/utils';
+import { convertToDDMMYYYYFromIOS } from '../../../utils/utils';
 
 interface Props {
-  question: SurveyResponseQuestion;
-  response: OptionResponse | OptionResponse[];
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  question: QuestionDto;
+  response: OptionResponse[] | null;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
-const DateTime = ({ question, response, handleChange }: Props) => {
-  // Extract the reply string
-  const reply =
-    (response && (!Array.isArray(response) ? response.reply : '')) || '';
-
+const DateTime = ({ response, handleChange }: Props) => {
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
 
-  // Parse the initial reply into date and time
-  let initialDate: Date | null = null;
-  let initialTime: Date | null = null;
-
-  if (reply) {
-    // reply format: "DD/MM/YYYY HH:mm:ss"
-    const [datePart, timePart] = reply.split(' ');
-    if (datePart) {
-      const [dd, mm, yyyy] = datePart.split('/').map(Number);
-      if (dd && mm && yyyy) {
-        initialDate = new Date(yyyy, mm - 1, dd); // Local date
-      }
-    }
-    if (timePart) {
-      const [HH, MM, SS] = timePart.split(':').map(Number);
-      initialTime = new Date(1970, 0, 1, HH, MM, SS); // Local time reference date
-    }
-  }
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(initialDate);
-  const [selectedTime, setSelectedTime] = useState<Date | null>(initialTime);
-
-  const [dateDisplay, setDateDisplay] = useState<string>(
-    selectedDate ? formatToDDMMYYYY(selectedDate) : 'DD/MM/YYYY'
-  );
-
-  const [timeDisplay, setTimeDisplay] = useState<string>(
-    selectedTime
-      ? selectedTime.toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
-      : '—:—'
-  );
-
   const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
   const [isTimePickerVisible, setTimePickerVisible] = useState<boolean>(false);
-
-  // Combine selected date and time into the desired string format "DD/MM/YYYY HH:mm:ss"
-  const updateCombinedDateTime = (date: Date | null, time: Date | null) => {
-    const datePart = date ? formatToDDMMYYYY(date) : 'DD/MM/YYYY';
-    const timePart = time
-      ? time.toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })
-      : '00:00:00';
-
-    if (!date && !time) return; // No updates if we have neither
-
-    const finalDatePart = datePart !== 'DD/MM/YYYY' ? datePart : '04/11/2024';
-    const finalTimePart = time ? timePart : '00:00:00';
-
-    const combinedDateTime = `${finalDatePart} ${finalTimePart}`;
-    handleChange(question.id, combinedDateTime, null, false);
-  };
-
-  // Date Picker Handlers
-  const handleDateConfirm = (date: Date) => {
-    setDatePickerVisible(false);
-    setSelectedDate(date);
-
-    const formattedDate = formatToDDMMYYYY(date);
-    setDateDisplay(formattedDate);
-
-    updateCombinedDateTime(date, selectedTime);
-  };
+  const [timeDisplay, setTimeDisplay] = useState<string>('—:—');
 
   const hideDatePicker = () => setDatePickerVisible(false);
 
-  // Time Picker Handlers
-  const handleTimeConfirm = (time: Date) => {
-    setTimePickerVisible(false);
-    setSelectedTime(time);
+  const hideTimePicker = () => setTimePickerVisible(false);
 
-    const formattedTimeForDisplay = time.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    setTimeDisplay(formattedTimeForDisplay);
+  const [dateTime, setDateTime] = useState<string | null>(null);
 
-    updateCombinedDateTime(selectedDate, time);
+  const handleDateTimeChange = (answer: string) => {
+    handleChange([{ optionId: null, reply: answer }]);
   };
 
-  const hideTimePicker = () => setTimePickerVisible(false);
+  useEffect(() => {
+    if (!response) {
+      setDateTime(null);
+      setTimeDisplay('—:—');
+      return;
+    }
+
+    const reply = response[0]?.reply;
+
+    if (!reply) {
+      setDateTime(null);
+      setTimeDisplay('—:—');
+      return;
+    }
+
+    if (reply) {
+      setDateTime(reply);
+      const dateObj = new Date(reply);
+      const hoursCurrent = dateObj.getHours();
+      const minutesCurrent = dateObj.getMinutes();
+      const formattedTime = `${String(hoursCurrent).padStart(2, '0')}:${String(minutesCurrent).padStart(2, '0')}`;
+      setTimeDisplay(formattedTime);
+    }
+  }, [response]);
+
+  const handleTimeChange = (time: Date) => {
+    if (!time) return;
+    hideDatePicker();
+    hideTimePicker();
+
+    if (dateTime) {
+      const currentDate = new Date(dateTime);
+      const hours = time.getHours();
+      const minutes = time.getMinutes();
+      const seconds = time.getSeconds();
+
+      currentDate.setHours(hours, minutes, seconds, 0);
+      handleDateTimeChange(currentDate.toISOString());
+      // setDateTime(currentDate.toISOString());
+    } else {
+      const currentDate = new Date();
+      const hours = time.getHours();
+      const minutes = time.getMinutes();
+      const seconds = time.getSeconds();
+
+      currentDate.setHours(hours, minutes, seconds, 0);
+
+      handleDateTimeChange(currentDate.toISOString());
+      // setDateTime(currentDate.toISOString());
+    }
+  };
+
+  const handleDateChange = (date: Date) => {
+    if (!date) return;
+    hideDatePicker();
+    hideTimePicker();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    let hours, minutes, seconds;
+
+    if (dateTime) {
+      // Extract time from the existing dateTime
+      const currentDate = new Date(dateTime);
+      hours = currentDate.getHours();
+      minutes = currentDate.getMinutes();
+      seconds = currentDate.getSeconds();
+    } else {
+      // Use the current time
+      const currentDate = new Date();
+      hours = currentDate.getHours();
+      minutes = currentDate.getMinutes();
+      seconds = currentDate.getSeconds();
+    }
+
+    // Construct the new Date with preserved time
+    const newDate = new Date(year, month - 1, day, hours, minutes, seconds, 0);
+
+    // Update state and notify the handler
+    handleDateTimeChange(newDate.toISOString());
+    // setDateTime(newDate.toISOString());
+  };
+
+  const dateReply = dateTime ? convertToDDMMYYYYFromIOS(dateTime) : '';
+  const dateTimeObject = dateTime ? new Date(dateTime) : new Date();
 
   return (
     <View style={styles.container}>
@@ -123,7 +125,7 @@ const DateTime = ({ question, response, handleChange }: Props) => {
         style={styles.touchableArea}
       >
         <View style={styles.inputWrapper}>
-          <Text style={styles.inputText}>{dateDisplay}</Text>
+          <Text style={styles.inputText}>{dateReply || 'DD/MM/YYYY'}</Text>
         </View>
       </TouchableOpacity>
 
@@ -141,18 +143,18 @@ const DateTime = ({ question, response, handleChange }: Props) => {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
-        onConfirm={handleDateConfirm}
+        onConfirm={handleDateChange}
         onCancel={hideDatePicker}
-        date={selectedDate || new Date()}
+        date={dateTimeObject || new Date()}
       />
 
       {/* Time Picker Modal */}
       <DateTimePickerModal
         isVisible={isTimePickerVisible}
         mode="time"
-        onConfirm={handleTimeConfirm}
+        onConfirm={handleTimeChange}
         onCancel={hideTimePicker}
-        date={selectedTime || new Date()}
+        date={dateTimeObject || new Date()}
         is24Hour={true}
       />
     </View>

@@ -17,7 +17,6 @@ interface Props {
 
 const DateComponent = ({ response, handleChange }: Props) => {
   const reply = response && response[0]?.reply ? response[0]?.reply : '';
-  const dateObject = reply ? new Date(reply) : new Date();
 
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
@@ -35,12 +34,16 @@ const DateComponent = ({ response, handleChange }: Props) => {
   };
 
   useEffect(() => {
-    if (!reply) return;
+    if (!reply) {
+      setInputValue('');
+      return;
+    }
     const dateString = convertToDDMMYYYYFromIOS(reply);
     setInputValue(dateString);
   }, [reply]);
 
   const hidePicker = () => setPickerVisible(false);
+  const dateObject = reply ? new Date(reply) : new Date();
 
   return (
     <View style={styles.container}>
