@@ -42,21 +42,17 @@ const ResponseYesNo = ({ question, response, handleChange }: Props) => {
     <View style={styles.container}>
       {question.options.map((option) => {
         const isSelected = selectedChoice?.optionId === option.id;
-        // Decide if "Yes" or "No" by checking the lowercased label
-        const isYes = option.option.toLowerCase() === 'yes';
 
         // Container styles
         const containerStyles = [
           styles.optionContainer,
-          isSelected &&
-            (isYes ? styles.selectedYesContainer : styles.selectedNoContainer),
+          isSelected && styles.selectedYesContainer,
         ];
 
         // Text styles
         const textStyles = [
           styles.optionText,
-          isSelected &&
-            (isYes ? styles.selectedYesText : styles.selectedNoText),
+          isSelected && styles.selectedYesText,
         ];
 
         return (

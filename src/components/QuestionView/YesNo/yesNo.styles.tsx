@@ -5,10 +5,8 @@ interface YesNoStyles {
   container: ViewStyle;
   optionContainer: ViewStyle;
   selectedYesContainer: ViewStyle;
-  selectedNoContainer: ViewStyle;
   optionText: TextStyle;
   selectedYesText: TextStyle;
-  selectedNoText: TextStyle;
 }
 
 export const createStyles = (isDark: boolean): YesNoStyles => {
@@ -39,10 +37,6 @@ export const createStyles = (isDark: boolean): YesNoStyles => {
       borderColor: theme.status.success,
       borderWidth: 2,
     },
-    selectedNoContainer: {
-      borderColor: theme.status.error,
-      borderWidth: 2,
-    },
     optionText: {
       fontSize: theme.sizes.medium,
       fontFamily: theme.font.bold,
@@ -50,10 +44,6 @@ export const createStyles = (isDark: boolean): YesNoStyles => {
     },
     selectedYesText: {
       color: theme.status.success,
-      fontFamily: theme.font.bold,
-    },
-    selectedNoText: {
-      color: theme.status.error,
       fontFamily: theme.font.bold,
     },
   });
