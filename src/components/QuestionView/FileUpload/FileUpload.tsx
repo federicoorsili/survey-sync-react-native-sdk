@@ -14,22 +14,14 @@ import {
   uploadFile,
 } from '../../../api/directAPI';
 import { useAppTheme } from '../../../context/ThemeContext';
-import type {
-  OptionResponse,
-  SurveyResponseQuestion,
-} from '../../../types/types';
+import type { OptionResponse, QuestionDto } from '../../../types/types';
 
 interface Props {
   surveyId: string;
-  response: OptionResponse | OptionResponse[];
   respondentId: string;
-  question: SurveyResponseQuestion;
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  question: QuestionDto;
+  response: OptionResponse[] | null;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
 const FileUpload: React.FC<Props> = ({
@@ -39,20 +31,23 @@ const FileUpload: React.FC<Props> = ({
   response,
   handleChange,
 }) => {
-  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
   const { isDark, theme } = useAppTheme();
   const styles = createStyles(isDark);
 
+  const reply = response?.[0]?.reply ?? '';
+
+  const [fileName, setFileName] = useState<string | null>(null);
+
   useEffect(() => {
-    // If a filename was previously saved, restore it
-    if (response && !Array.isArray(response) && response.reply) {
-      setUploadedFileName(response.reply);
-    } else {
-      setUploadedFileName(null);
+    if (!reply) {
+      setFileName(null);
+      return;
     }
-  }, [response]);
+
+    setFileName(reply);
+  }, [reply]);
 
   const handleFileChange = async () => {
     if (!surveyId || !respondentId || !question) {
@@ -92,8 +87,8 @@ const FileUpload: React.FC<Props> = ({
           await uploadFile(file, url);
 
           // Store just the filename
-          setUploadedFileName(file.name);
-          handleChange(question.id, file.name, null, false);
+          setFileName(file.name);
+          handleChange([{ optionId: null, reply: file.name }]);
         }
       }
     } catch (error) {
@@ -108,13 +103,13 @@ const FileUpload: React.FC<Props> = ({
   };
 
   const handleRemoveFile = () => {
-    setUploadedFileName(null);
-    handleChange(question.id, '', null, false);
+    setFileName(null);
+    handleChange([{ optionId: null, reply: '' }]);
   };
 
   return (
     <View style={styles.container}>
-      {uploadedFileName ? (
+      {fileName ? (
         <View style={styles.filePreviewContainer}>
           <View style={styles.fileInfo}>
             <MaterialIcons
@@ -124,7 +119,7 @@ const FileUpload: React.FC<Props> = ({
             />
             <View style={styles.fileDetails}>
               <Text style={styles.fileName} numberOfLines={1}>
-                {uploadedFileName}
+                {fileName}
               </Text>
             </View>
           </View>

@@ -30,7 +30,10 @@ const TimeComponent = ({ response, handleChange }: Props) => {
     if (dateObj) {
       const hoursCurrent = dateObj.getHours();
       const minutesCurrent = dateObj.getMinutes();
-      const formattedTime = `${hoursCurrent}:${minutesCurrent}`;
+      const hours = hoursCurrent.toString().padStart(2, '0');
+      const minutes = minutesCurrent.toString().padStart(2, '0');
+
+      const formattedTime = `${hours}:${minutes}`;
       setTimeDisplay(formattedTime);
       setSelectedTime(dateObj);
     }

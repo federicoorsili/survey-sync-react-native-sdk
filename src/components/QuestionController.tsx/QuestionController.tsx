@@ -3,9 +3,9 @@ import type { OptionResponse, QuestionDto } from '../../types/types';
 import EmptyListPlaceholder from '../Placeholder/EmptyListPlaceholder';
 import Consent from '../QuestionView/Consent/Consent';
 import DateComponent from '../QuestionView/Date/DateComponent';
-// import DateTime from '../QuestionView/DateTime/DateTime';
+import DateTime from '../QuestionView/DateTime/DateTime';
 import Email from '../QuestionView/Email/Email';
-// import FileUpload from '../QuestionView/FileUpload/FileUpload';
+import FileUpload from '../QuestionView/FileUpload/FileUpload';
 import LikertScale from '../QuestionView/LikertScale/LikertScale';
 import OpenEnded from '../QuestionView/OpenEnded/OpenEnded';
 import Phone from '../QuestionView/Phone/Phone';
@@ -25,7 +25,13 @@ interface Props {
   currentQuestionIndex: number;
 }
 
-const QuestionController = ({ question, response, handleChange }: Props) => {
+const QuestionController = ({
+  question,
+  surveyId,
+  response,
+  handleChange,
+  respondentId,
+}: Props) => {
   if (!question) {
     return <EmptyListPlaceholder text="No question provided" />;
   }
@@ -115,25 +121,25 @@ const QuestionController = ({ question, response, handleChange }: Props) => {
     case QuestionTypes.TIME:
       return <TimeComponent response={response} handleChange={handleChange} />;
 
-    // case QuestionTypes.DATETIME:
-    //   return (
-    //     <DateTime
-    //       question={question}
-    //       response={response}
-    //       handleChange={handleChange}
-    //     />
-    //   );
+    case QuestionTypes.DATETIME:
+      return (
+        <DateTime
+          question={question}
+          response={response}
+          handleChange={handleChange}
+        />
+      );
 
-    // case QuestionTypes.FILE_UPLOAD:
-    //   return (
-    //     <FileUpload
-    //       question={question}
-    //       response={response}
-    //       handleChange={handleChange}
-    //       surveyId={surveyId}
-    //       respondentId={respondentId}
-    //     />
-    //   );
+    case QuestionTypes.FILE_UPLOAD:
+      return (
+        <FileUpload
+          question={question}
+          response={response}
+          handleChange={handleChange}
+          surveyId={surveyId}
+          respondentId={respondentId}
+        />
+      );
 
     default:
       return <EmptyListPlaceholder text="No question provided" />;

@@ -332,9 +332,9 @@ export const compareResponses = (
 export const convertToDDMMYYYYFromIOS = (isoString: string): string => {
   const date = new Date(isoString); // Parse the ISO string
 
-  const day = date.getUTCDate().toString().padStart(2, '0'); // Ensure two digits
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-  const year = date.getUTCFullYear();
+  const day = date.getDate().toString().padStart(2, '0'); // Local day
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Local month
+  const year = date.getFullYear(); // Local year
 
   return `${day}/${month}/${year}`;
 };
