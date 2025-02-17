@@ -91,14 +91,13 @@ const SurveyConditionalView = ({
   }, [currentQuestionIndex, scaleAnim]);
 
   useEffect(() => {
-    const q = questions[currentQuestionIndex];
+    const q = questionsHistory[currentQuestionIndex];
     if (!q) return;
     const matched = responsesByQuestions.find(
       (rbq) => rbq.questionRefId === q.refId
     );
     setResponse(matched?.response || null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentQuestionIndex, responsesByQuestions]);
+  }, [currentQuestionIndex, questionsHistory, responsesByQuestions]);
 
   const updateResponsesByQuestions = (
     qRefId: string,
@@ -261,27 +260,29 @@ const SurveyConditionalView = ({
               />
             </View>
           )}
-          <View style={styles.questionWrapper}>
-            <Text style={styles.questionText}>{question.question}</Text>
-          </View>
-          <View style={styles.questionAnswerWrapper}>
-            {loading ? (
-              <View style={styles.center}>
-                <ActivityIndicator size="large" color={theme.text.primary} />
+          {loading ? (
+            <View style={styles.center}>
+              <ActivityIndicator size="large" color={theme.text.primary} />
+            </View>
+          ) : (
+            <>
+              <View style={styles.questionWrapper}>
+                <Text style={styles.questionText}>{question.question}</Text>
               </View>
-            ) : (
-              <View>
-                <QuestionController
-                  question={question}
-                  surveyId={survey.id}
-                  respondentId={respondentId}
-                  handleChange={setResponse}
-                  currentQuestionIndex={currentQuestionIndex}
-                  response={response}
-                />
+              <View style={styles.questionAnswerWrapper}>
+                <View>
+                  <QuestionController
+                    question={question}
+                    surveyId={survey.id}
+                    respondentId={respondentId}
+                    handleChange={setResponse}
+                    currentQuestionIndex={currentQuestionIndex}
+                    response={response}
+                  />
+                </View>
               </View>
-            )}
-          </View>
+            </>
+          )}
         </Animated.View>
 
         <Navigation

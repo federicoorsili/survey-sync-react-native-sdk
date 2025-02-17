@@ -6,9 +6,15 @@ interface AppProps {
   surveyAlias: string;
   onFinishedSurvey?: (respondentId: string) => void;
   theme?: 'light' | 'dark';
+  searchParams?: Record<string, string | string[]>;
 }
 
-const Survey = ({ surveyAlias, onFinishedSurvey, theme }: AppProps) => {
+const Survey = ({
+  surveyAlias,
+  onFinishedSurvey,
+  theme,
+  searchParams,
+}: AppProps) => {
   const [fontsLoaded] = useFonts({
     InterBold: require('./assets/fonts/Inter18pt-Bold.ttf'),
     InterMedium: require('./assets/fonts/Inter18pt-Medium.ttf'),
@@ -19,7 +25,11 @@ const Survey = ({ surveyAlias, onFinishedSurvey, theme }: AppProps) => {
 
   return (
     <ThemeProvider customTheme={theme}>
-      <SurveyWrapper alias={surveyAlias} onFinishedSurvey={onFinishedSurvey} />
+      <SurveyWrapper
+        alias={surveyAlias}
+        onFinishedSurvey={onFinishedSurvey}
+        searchParams={searchParams}
+      />
     </ThemeProvider>
   );
 };
