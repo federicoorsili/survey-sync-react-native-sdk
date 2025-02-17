@@ -2,7 +2,7 @@ import { QuestionTypes } from '../../types/enums';
 import type { OptionResponse, QuestionDto } from '../../types/types';
 import EmptyListPlaceholder from '../Placeholder/EmptyListPlaceholder';
 import Consent from '../QuestionView/Consent/Consent';
-// import DateComponent from '../QuestionView/Date/DateComponent';
+import DateComponent from '../QuestionView/Date/DateComponent';
 // import DateTime from '../QuestionView/DateTime/DateTime';
 import Email from '../QuestionView/Email/Email';
 // import FileUpload from '../QuestionView/FileUpload/FileUpload';
@@ -103,14 +103,14 @@ const QuestionController = ({ question, response, handleChange }: Props) => {
     case QuestionTypes.PHONE:
       return <Phone response={response} handleChange={handleChange} />;
 
-    // case QuestionTypes.DATE:
-    //   return (
-    //     <DateComponent
-    //       question={question}
-    //       response={response}
-    //       handleChange={handleChange}
-    //     />
-    //   );
+    case QuestionTypes.DATE:
+      return (
+        <DateComponent
+          question={question}
+          response={response}
+          handleChange={handleChange}
+        />
+      );
 
     // case QuestionTypes.TIME:
     //   return <TimeComponent response={response} handleChange={handleChange} />;

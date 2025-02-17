@@ -1,53 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { createStyles } from './date.styles';
 import { useAppTheme } from '../../../context/ThemeContext';
-import type {
-  SurveyResponseQuestion,
-  OptionResponse,
-} from '../../../types/types';
-import { formatToDDMMYYYY } from '../../../utils/utils';
+import type { OptionResponse, QuestionDto } from '../../../types/types';
+import {
+  convertToDDMMYYYYFromIOS,
+  formatToDDMMYYYY,
+} from '../../../utils/utils';
 
 interface Props {
-  question: SurveyResponseQuestion;
-  response: OptionResponse | OptionResponse[];
-  handleChange: (
-    questionId: number,
-    reply: string,
-    optionId: number | null,
-    isChecked: boolean
-  ) => void;
+  response: OptionResponse[] | null;
+  question: QuestionDto;
+  handleChange: (response: OptionResponse[]) => void;
 }
 
-const DateComponent = ({ question, response, handleChange }: Props) => {
-  const reply = response && !Array.isArray(response) ? response.reply : '';
+const DateComponent = ({ response, handleChange }: Props) => {
+  const reply = response && response[0]?.reply ? response[0]?.reply : '';
+  const dateObject = reply ? new Date(reply) : new Date();
 
   const { isDark } = useAppTheme();
   const styles = createStyles(isDark);
 
-  let initialDate: Date | null = null;
-  if (reply) {
-    const [dd, mm, yyyy] = reply.split('/').map(Number);
-    if (dd && mm && yyyy) {
-      initialDate = new Date(yyyy, mm - 1, dd);
-    }
-  }
-
-  const [displayDate, setDisplayDate] = useState<Date | null>(initialDate);
-  const [inputValue, setInputValue] = useState<string>(
-    displayDate ? formatToDDMMYYYY(displayDate) : ''
-  );
+  const [inputValue, setInputValue] = useState<string>('');
   const [isPickerVisible, setPickerVisible] = useState<boolean>(false);
 
   const handleConfirm = (selectedDate: Date) => {
     setPickerVisible(false);
-    setDisplayDate(selectedDate);
 
     const formattedDate = formatToDDMMYYYY(selectedDate);
     setInputValue(formattedDate);
-    handleChange(question.id, formattedDate, null, false);
+    const dateIOSString = selectedDate.toISOString();
+    handleChange([{ optionId: null, reply: dateIOSString }]);
   };
+
+  useEffect(() => {
+    if (!reply) return;
+    const dateString = convertToDDMMYYYYFromIOS(reply);
+    setInputValue(dateString);
+  }, [reply]);
 
   const hidePicker = () => setPickerVisible(false);
 
@@ -67,7 +58,7 @@ const DateComponent = ({ question, response, handleChange }: Props) => {
         mode="date"
         onConfirm={handleConfirm}
         onCancel={hidePicker}
-        date={displayDate || new Date()}
+        date={dateObject}
       />
     </View>
   );
