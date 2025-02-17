@@ -2,7 +2,6 @@ export interface SurveyStartedResponse {
   id: string;
 }
 
-import type { SurveyResponseData } from '../../lib/typescript/commonjs/src/types/types';
 import {
   FinalPagePropertyName,
   QuestionTypes,
@@ -359,15 +358,6 @@ export interface DropOffRate {
   respondentsStarted: number;
   respondentsCompleted: number;
   dropOffCount: number;
-}
-
-export interface InsightsResponse {
-  surveyDto: SurveyResponseData;
-  starts: number;
-  submissions: number;
-  completionRate: number;
-  timeToComplete: number;
-  dropOffRates: DropOffRate[];
 }
 
 // Team

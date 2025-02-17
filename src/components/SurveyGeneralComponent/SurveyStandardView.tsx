@@ -39,6 +39,7 @@ const SurveyStandardView = ({
   userLogoData,
   respondentId,
   survey,
+  onFinishedSurvey,
 }: SurveyComponentProps) => {
   const { questions } = survey || {};
   const { isDark, theme } = useAppTheme();
@@ -147,6 +148,9 @@ const SurveyStandardView = ({
       if (hasChanged) {
         const nextRefId = await handleSubmitResponse();
         if (nextRefId === null) {
+          if (onFinishedSurvey) {
+            onFinishedSurvey(respondentId);
+          }
           setRenderFinalPage(true);
           return;
         }
