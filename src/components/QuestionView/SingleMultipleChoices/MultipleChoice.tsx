@@ -138,7 +138,7 @@ const MultipleChoice = ({
       />
       <TextInput
         style={styles.textInput}
-        placeholder="Type here"
+        placeholder="Other..."
         placeholderTextColor={theme.text.tertiary}
         multiline={true}
         value={input}
