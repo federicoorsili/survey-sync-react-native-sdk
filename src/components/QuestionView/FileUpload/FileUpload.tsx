@@ -137,7 +137,7 @@ const FileUpload: React.FC<Props> = ({
           disabled={isUploading}
         >
           {isUploading ? (
-            <ActivityIndicator size="large" color={theme.status.info} />
+            <ActivityIndicator size="large" color={theme.text.primary} />
           ) : (
             <>
               <MaterialIcons
