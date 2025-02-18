@@ -44,8 +44,8 @@ yarn add @react-native-community/datetimepicker expo-document-picker react-nativ
   
 ## 📖 Usage
 
-```
-interface AppProps {
+```js
+interface SurveyProps {
   surveyAlias: string;
   onFinishedSurvey?: (respondentId: string) => void;
   theme?: 'light' | 'dark';
