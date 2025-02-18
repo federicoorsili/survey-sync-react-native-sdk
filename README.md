@@ -71,6 +71,10 @@ To fix this, run:
 npx expo install @react-native-community/datetimepicker react-native-modal-datetime-picker
 ```
 
+## 💻 Contact
+
+If you encounter any issues apart from the ones mentioned above during SDK installation, feel free to reach out on [Discord](https://discordapp.com/users/alina_nosovets) – I'm happy to help!
+
 ## 💻 Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
