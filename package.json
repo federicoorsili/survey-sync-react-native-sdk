@@ -1,6 +1,6 @@
 {
   "name": "survey-sync-react-native-sdk",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A React Native component designed by Survey Sync for seamlessly integrating surveys into your mobile applications.",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
