@@ -16,32 +16,8 @@ A React Native component designed by [Survey Sync](https://survey-sync.com) for 
 ```sh
 npm install survey-sync-react-native-sdk
 ```
-or
-
-```sh
-npm install survey-sync-react-native-sdk --legacy-peer-deps 
-```
-‼️ Additional packages may need to be installed to ensure proper functionality
-
-```sh
-npm install @react-native-community/datetimepicker expo-document-picker react-native-modal-datetime-picker react-native-toast-message expo-clipboard
-```
 
 
-### yarn:
-
-```sh
-yarn add survey-sync-react-native-sdk
-```
-
-‼️ Additional packages may need to be installed to ensure proper functionality
-
-```sh
-yarn add @react-native-community/datetimepicker expo-document-picker react-native-modal-datetime-picker react-native-toast-message expo-clipboard
-
-```
-
-  
 ## 📖 Usage
 
 ```js
@@ -94,7 +70,6 @@ To fix this, run:
 ```sh
 npx expo install @react-native-community/datetimepicker react-native-modal-datetime-picker
 ```
-
 
 ## 💻 Contributing
 

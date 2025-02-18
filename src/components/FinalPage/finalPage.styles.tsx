@@ -39,12 +39,14 @@ export const createStyles = (isDark: boolean) => {
       fontFamily: theme.font.bold,
       marginTop: 16,
       textAlign: 'center',
+      color: theme.text.primary,
     },
+
     subtitle: {
       fontSize: theme.sizes.medium,
       marginTop: 16,
       textAlign: 'center',
-      color: theme.text.secondary,
+      color: theme.text.primary,
     },
   });
 };
