@@ -44,31 +44,36 @@ yarn add @react-native-community/datetimepicker expo-document-picker react-nativ
   
 ## 📖 Usage
 
-```js
-import Survey from 'survey-sync-react-native-sdk';
-
-const App = () => {
-  const theme = 'dark';
-  const onFinishedSurvey = (respondentId: string) => {
-    console.log('Survey finished with respondentId:', respondentId);
-  };
-
-  const alias = '7TRpmpzK' // your alias string 
-
-  return (
-    <Survey surveyAlias={alias} onFinishedSurvey={onFinishedSurvey} theme={theme} />
-  );
-};
-```
-
-## 🔗 Props
 ```
 interface AppProps {
   surveyAlias: string;
   onFinishedSurvey?: (respondentId: string) => void;
   theme?: 'light' | 'dark';
+  searchParams?: Record<string, string | string[]>;
 }
 ```
+
+```js
+import Survey from 'survey-sync-react-native-sdk';
+
+const App = () => {
+
+  const theme = 'dark';
+
+  const alias = '7TRpmpzK' // your alias string 
+
+  const searchParams = { testParam1: '1', testParam2: '2' } // your params
+
+  const onFinishedSurvey = (respondentId: string) => {
+    console.log('Survey finished with respondentId:', respondentId);
+  };
+
+  return (
+    <Survey surveyAlias={alias} onFinishedSurvey={onFinishedSurvey} theme={theme} searchParams={searchParams} />
+  );
+};
+```
+
 
 ## ⚙️ Typescript Settings:
 If you encounter issues related to the 'moduleResolution' setting, add the following to your ```tsconfig.json```
@@ -80,6 +85,14 @@ If you encounter issues related to the 'moduleResolution' setting, add the follo
     "resolvePackageJsonImports": false
   }
 }
+```
+
+## ⚙️ Potential issue in Expo App:
+If you encounter issues related to the 'RNCMaterialDatePicker' it means that the native module for the material date picker isn’t included in your current Expo Go client. In previous versions, this module might have worked without extra configuration, but with the newer Expo client, native modules not built into Expo Go must be explicitly added.
+To fix this, run:
+
+```sh
+npx expo install @react-native-community/datetimepicker react-native-modal-datetime-picker
 ```
 
 
