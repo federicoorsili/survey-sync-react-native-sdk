@@ -11,8 +11,6 @@ A React Native component designed by [Survey Sync](https://survey-sync.com) for 
 
 ## 🔧 Installation
 
-### npm:
-
 ```sh
 npm install survey-sync-react-native-sdk
 ```
@@ -71,7 +69,7 @@ To fix this, run:
 npx expo install @react-native-community/datetimepicker react-native-modal-datetime-picker
 ```
 
-## 💻 Contact
+## 💬 Contact
 
 If you encounter any issues apart from the ones mentioned above during SDK installation, feel free to reach out on [Discord](https://discordapp.com/users/alina_nosovets) – I'm happy to help!
 
