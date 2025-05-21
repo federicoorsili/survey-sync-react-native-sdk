@@ -14106,9 +14106,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"survey-sync-react-native-sdk@workspace:.":
+"survey-sync-react-native-sdk-test@workspace:.":
   version: 0.0.0-use.local
-  resolution: "survey-sync-react-native-sdk@workspace:."
+  resolution: "survey-sync-react-native-sdk-test@workspace:."
   dependencies:
     "@commitlint/config-angular": ^19.6.0
     "@commitlint/config-conventional": ^17.0.2
