@@ -1911,9 +1911,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@exoid-io/survey-sync-react-native-sdk-exoid@workspace:.":
+"@exoid/survey-sync-react-native-sdk@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@exoid-io/survey-sync-react-native-sdk-exoid@workspace:."
+  resolution: "@exoid/survey-sync-react-native-sdk@workspace:."
   dependencies:
     "@commitlint/config-angular": ^19.6.0
     "@commitlint/config-conventional": ^17.0.2
