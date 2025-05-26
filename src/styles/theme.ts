@@ -31,55 +31,25 @@ const SIZES = {
   xxLarge: 32,
 };
 
-const LIGHT_THEME = {
-  // mainColor: '#333C4D',
-
-  // primary: '#333C4D',
-  // lightPrimary: '#64748b',
-  // secondary: '#367BFB',
-  // tertiary: '#FF7754',
-  // inverse: '#333C4D',
-
-  // background: {
-  //   primary: '#FFFFFF',
-  //   secondary: '#F9FAFB',
-  // },
-
-  // text: {
-  //   primary: '#333C4D',
-  //   secondary: '#666666',
-  //   tertiary: '#C1C0C8',
-  //   inverse: '#FFFFFF',
-  // },
-
-  // border: {
-  //   default: '#E5E7EB',
-  //   secondary: '#E5E7EB',
-  //   inverse: '#2A323C',
-  // },
-
-  // status: {
-  //   success: '#10B981',
-  //   error: '#EF4444',
-  //   warning: '#F59E0B',
-  //   info: '#3B82F6',
-  // },
-
+const THEME = {
   mainColor: '#333C4D',
+  primaryColor: '#036F3A',
+  primaryColorOpacity60: '#036F3A99',
 
   primary: '#64748b',
-  lightPrimary: '#94A3B8',
+  lightPrimary: 'red',
   secondary: '#367BFB',
   tertiary: '#FF7754',
-  inverse: '#A6ADBB',
+  inverse: 'red',
 
   background: {
-    primary: '#282828',
-    secondary: '#121212',
+    primary: '#ffffff0D', //to set transparent (background of the survey)
+    secondary: 'black', //to set transparent (background of the app)
   },
 
   text: {
-    primary: '#f2f2f2',
+    primary: '#ffffff', // '#f2f2f2', // white text also used as bg in selected options
+    primaryOpacity60: '#ffffff99', // '#f2f2f2', // white text also used as bg in selected options
     secondary: '#575757',
     inverse: '#1F2937',
     tertiary: '#575757',
@@ -87,7 +57,7 @@ const LIGHT_THEME = {
   },
 
   border: {
-    default: '#575757',
+    default: 'transparent', // transparent for survey background
     secondary: '#282828',
     inverse: '#FFFFFF',
   },
@@ -100,84 +70,7 @@ const LIGHT_THEME = {
   },
 };
 
-// const DARK_THEME = {
-//   mainColor: '#333C4D',
-
-//   primary: '#64748b',
-//   lightPrimary: '#94A3B8',
-//   secondary: '#367BFB',
-//   tertiary: '#FF7754',
-//   inverse: '#A6ADBB',
-
-//   background: {
-//     primary: '#282828',
-//     secondary: '#121212',
-//   },
-
-//   text: {
-//     primary: '#f2f2f2',
-//     secondary: '#575757',
-//     inverse: '#1F2937',
-//     tertiary: '#575757',
-//     myMarchePrimary: '#036F3A',
-//   },
-
-//   border: {
-//     default: '#575757',
-//     secondary: '#282828',
-//     inverse: '#FFFFFF',
-//   },
-
-//   status: {
-//     success: '#00A96E',
-//     error: '#FF5761',
-//     warning: '#D97706',
-//     info: '#2563EB',
-//   },
-// };
-
-const LIGHT_SHADOWS = {
-  // tiny: {
-  //   shadowColor: '#000',
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 1,
-  //   },
-  //   shadowOpacity: 0.1,
-  //   shadowRadius: 2,
-  //   elevation: 1,
-  // },
-  // small: {
-  //   shadowColor: '#000',
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 2,
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 3.84,
-  //   elevation: 2,
-  // },
-  // medium: {
-  //   shadowColor: '#000',
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 2,
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 5.84,
-  //   elevation: 5,
-  // },
-  // xs: {
-  //   shadowColor: '#000',
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 1,
-  //   },
-  //   shadowOpacity: 0.05,
-  //   shadowRadius: 1.5,
-  //   elevation: 1,
-  // },
-
+const SHADOWS = {
   tiny: {
     shadowColor: '#000',
     shadowOffset: {
@@ -220,50 +113,6 @@ const LIGHT_SHADOWS = {
   },
 };
 
-// // Dark theme shadows with higher opacity values but still using black
-// const DARK_SHADOWS = {
-//   tiny: {
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: 1,
-//     },
-//     shadowOpacity: 0.2,
-//     shadowRadius: 2.5,
-//     elevation: 2,
-//   },
-//   small: {
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: 2,
-//     },
-//     shadowOpacity: 0.3,
-//     shadowRadius: 4,
-//     elevation: 3,
-//   },
-//   medium: {
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: 3,
-//     },
-//     shadowOpacity: 0.35,
-//     shadowRadius: 6,
-//     elevation: 6,
-//   },
-//   xs: {
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: 1,
-//     },
-//     shadowOpacity: 0.15,
-//     shadowRadius: 2,
-//     elevation: 1,
-//   },
-// };
-
 // Theme interface for better type checking
 const createTheme = (fontFamily = 'default') => {
   let fontToUse = FONT; // Default Montserrat
@@ -275,7 +124,7 @@ const createTheme = (fontFamily = 'default') => {
   }
 
   return {
-    ...LIGHT_THEME,
+    ...THEME,
     font: fontToUse,
     fonts: {
       default: FONT,
@@ -283,7 +132,7 @@ const createTheme = (fontFamily = 'default') => {
       inter: INTER_FONT,
     },
     sizes: SIZES,
-    shadows: LIGHT_SHADOWS,
+    shadows: SHADOWS,
   };
 };
 
@@ -292,4 +141,4 @@ const useTheme = (_isDark = false, fontFamily = 'default') => {
   return createTheme(fontFamily);
 };
 
-export { useTheme, createTheme, LIGHT_THEME, FONT, POPPINS_FONT, INTER_FONT };
+export { useTheme, createTheme, THEME, FONT, POPPINS_FONT, INTER_FONT };

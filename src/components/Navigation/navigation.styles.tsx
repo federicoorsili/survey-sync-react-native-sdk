@@ -14,45 +14,46 @@ export const createStyles = (isDark: boolean) => {
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'center',
-      gap: 20,
-      // marginTop: 30,
+      gap: 8,
+      marginTop: 30,
       width: '100%',
     },
 
     // Primary button (Next/Submit)
     buttonNext: {
-      borderRadius: 10,
-      borderWidth: 1,
-      borderStyle: 'solid',
-      paddingHorizontal: 36,
+      flex: 1,
+      borderRadius: 12,
+      // borderWidth: 1,
+      // borderStyle: 'solid',
+      // paddingHorizontal: 36,
       paddingVertical: 14,
       alignItems: 'center',
-      borderColor: theme.border.inverse,
-      backgroundColor: theme.background.primary,
-      ...theme.shadows.tiny,
+      backgroundColor: theme.primaryColor,
+      // ...theme.shadows.tiny,
     },
 
     buttonNextDisabled: {
-      borderColor: theme.background.primary,
-      elevation: 0,
+      backgroundColor: theme.primaryColorOpacity60,
     },
 
     buttonTextDisabled: {
-      color: theme.text.primary,
+      color: theme.text.primaryOpacity60,
     },
 
     // Secondary button (Back)
     buttonPrev: {
+      // width: '40%',
+      flex: 1,
       borderRadius: 12,
       borderWidth: 1,
       borderStyle: 'solid',
-      paddingHorizontal: 36,
-      // paddingVertical: 14,
+      // paddingHorizontal: 36,
+      paddingVertical: 14,
       alignItems: 'center',
       justifyContent: 'center',
-      borderColor: theme.border.secondary,
+      borderColor: theme.text.primary,
       backgroundColor: 'transparent',
-      ...theme.shadows.tiny,
+      // ...theme.shadows.tiny,
     },
 
     buttonText: {

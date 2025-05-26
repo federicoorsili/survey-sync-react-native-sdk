@@ -16,7 +16,7 @@ export const createStyles = (isDark: boolean) => {
     },
     text: {
       fontSize: 14,
-      fontFamily: theme.font.bold,
+      fontFamily: theme.font.medium,
       color: theme.text.primary,
     },
   });
