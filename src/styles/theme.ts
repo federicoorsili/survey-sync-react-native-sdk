@@ -44,7 +44,7 @@ const THEME = {
 
   background: {
     primary: '#ffffff0D', //to set transparent (background of the survey)
-    secondary: 'black', //to set transparent (background of the app)
+    secondary: 'transparent', //to set transparent (background of the app)
   },
 
   text: {
