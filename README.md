@@ -1,8 +1,9 @@
-# 🛠 survey-sync-react-native-sdk 
+# 🛠 survey-sync-react-native-sdk
 
 A React Native component designed by [Survey Sync](https://survey-sync.com) for seamlessly integrating surveys into your mobile applications.
 
 ## 🤔 How to start?
+
 - Sign in to [Survey Sync](https://survey-sync.com)
 - Create Survey;
 - Publish Survey;
@@ -14,7 +15,6 @@ A React Native component designed by [Survey Sync](https://survey-sync.com) for 
 ```sh
 npm install survey-sync-react-native-sdk
 ```
-
 
 ## 📖 Usage
 
@@ -34,7 +34,7 @@ const App = () => {
 
   const theme = 'dark';
 
-  const alias = '7TRpmpzK' // your alias string 
+  const alias = '7TRpmpzK' // your alias string
 
   const searchParams = { testParam1: '1', testParam2: '2' } // your params
 
@@ -48,9 +48,9 @@ const App = () => {
 };
 ```
 
-
 ## ⚙️ Typescript Settings:
-If you encounter issues related to the 'moduleResolution' setting, add the following to your ```tsconfig.json```
+
+If you encounter issues related to the 'moduleResolution' setting, add the following to your `tsconfig.json`
 
 ```
 {
@@ -62,6 +62,7 @@ If you encounter issues related to the 'moduleResolution' setting, add the follo
 ```
 
 ## ⚙️ Potential issue in Expo App:
+
 If you encounter issues related to the 'RNCMaterialDatePicker' it means that the native module for the material date picker isn’t included in your current Expo Go client. In previous versions, this module might have worked without extra configuration, but with the newer Expo client, native modules not built into Expo Go must be explicitly added.
 To fix this, run:
 

@@ -73,10 +73,10 @@ export const createStyles = (isDark: boolean) => {
     },
 
     optionText: {
-      fontSize: theme.sizes.medium,
+      fontSize: 12,
       color: theme.text.primary,
       textAlign: 'center',
-      fontFamily: theme.font.regular,
+      fontFamily: theme.font.medium,
     },
 
     selectedOptionText: {

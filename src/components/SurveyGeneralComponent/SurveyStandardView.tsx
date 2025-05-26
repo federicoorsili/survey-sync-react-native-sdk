@@ -217,10 +217,6 @@ const SurveyStandardView = ({
           paddingTop: Platform.OS === 'android' ? 50 : 20,
         }}
       >
-        <QuestionCounter
-          questionsSize={questions.length}
-          currentQuestionIndex={currentQuestionIndex}
-        />
         <Animated.View
           style={[
             styles.container,
@@ -256,6 +252,10 @@ const SurveyStandardView = ({
           </View>
         </Animated.View>
 
+        <QuestionCounter
+          questionsSize={questions.length}
+          currentQuestionIndex={currentQuestionIndex}
+        />
         <Navigation
           currentQuestionIndex={currentQuestionIndex}
           answerRequired={!isAnswerValid}

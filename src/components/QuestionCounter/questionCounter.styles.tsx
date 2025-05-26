@@ -7,15 +7,15 @@ export const createStyles = (isDark: boolean) => {
 
   return StyleSheet.create({
     container: {
-      paddingVertical: 8,
-      paddingHorizontal: 8,
-      borderBottomWidth: 2,
-      borderBottomColor: theme.border.inverse,
+      // paddingVertical: 8,
+      // paddingHorizontal: 8,
+      // borderBottomWidth: 2,
+      // borderBottomColor: theme.border.inverse,
       alignItems: 'center',
-      marginBottom: 16,
+      // marginBottom: 16,
     },
     text: {
-      fontSize: 24,
+      fontSize: 14,
       fontFamily: theme.font.bold,
       color: theme.text.primary,
     },

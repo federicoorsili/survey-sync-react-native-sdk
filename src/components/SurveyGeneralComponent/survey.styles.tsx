@@ -54,9 +54,9 @@ export const createStyles = (isDark: boolean) => {
     },
 
     questionText: {
-      fontSize: theme.sizes.large,
+      fontSize: 14,
       marginBottom: 12,
-      fontFamily: theme.font.medium,
+      fontFamily: theme.font.semiBold,
       color: theme.text.primary,
     },
 
