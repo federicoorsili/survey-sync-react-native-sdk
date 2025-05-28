@@ -14,6 +14,7 @@ import { createStyles } from './survey.styles';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
+  Platform,
   Text,
   View,
 } from 'react-native';
@@ -100,7 +101,7 @@ const SurveyGeneralComponent: React.FC<SurveyComponentProps> = ({
 
   return (
     <KeyboardAvoidingView
-      behavior={'padding'}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.keyboardAvoidingView}
     >
       {surveyType === SurveyType.STANDARD ? (
