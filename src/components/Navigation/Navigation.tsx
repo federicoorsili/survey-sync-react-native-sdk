@@ -39,7 +39,7 @@ const Navigation = ({
           onPress={() => handleNavigation(-1)}
           disabled={currentQuestionIndex === 0}
         >
-          <Text style={styles.buttonText}>Back</Text>
+          <Text style={styles.buttonText}>INDIETRO</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -61,7 +61,7 @@ const Navigation = ({
               answerRequired && styles.buttonTextDisabled,
             ]}
           >
-            {currentQuestionIndex < lastIndex ? 'Next' : 'Submit'}
+            {currentQuestionIndex < lastIndex ? 'AVANTI' : 'INVIA'}
           </Text>
         </TouchableOpacity>
       </View>

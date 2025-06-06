@@ -211,16 +211,14 @@ const SurveyStandardView = ({
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           flexGrow: 1,
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           alignItems: 'center',
-          paddingHorizontal: 10,
+          paddingHorizontal: 24,
           paddingTop: Platform.OS === 'android' ? 50 : 20,
         }}
       >
-        <QuestionCounter
-          questionsSize={questions.length}
-          currentQuestionIndex={currentQuestionIndex}
-        />
+        <View></View>
+        <View></View>
         <Animated.View
           style={[
             styles.container,
@@ -256,6 +254,10 @@ const SurveyStandardView = ({
           </View>
         </Animated.View>
 
+        <QuestionCounter
+          questionsSize={questions.length}
+          currentQuestionIndex={currentQuestionIndex}
+        />
         <Navigation
           currentQuestionIndex={currentQuestionIndex}
           answerRequired={!isAnswerValid}

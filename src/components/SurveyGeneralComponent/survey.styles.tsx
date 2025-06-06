@@ -14,13 +14,13 @@ export const createStyles = (isDark: boolean) => {
     container: {
       minHeight: 200,
       width: '100%',
-      paddingHorizontal: 14,
+      // paddingHorizontal: 14,
       paddingVertical: 25,
-      backgroundColor: theme.background.primary,
+      // backgroundColor: theme.background.primary,
       borderRadius: 16,
-      marginHorizontal: 8,
+      // marginHorizontal: 8,
       marginVertical: 8,
-      ...theme.shadows.tiny,
+      // ...theme.shadows.tiny,
       position: 'relative',
     },
 
@@ -54,9 +54,11 @@ export const createStyles = (isDark: boolean) => {
     },
 
     questionText: {
-      fontSize: theme.sizes.large,
+      width: '100%',
+      textAlign: 'center',
+      fontSize: 14,
       marginBottom: 12,
-      fontFamily: theme.font.medium,
+      fontFamily: theme.font.semiBold,
       color: theme.text.primary,
     },
 

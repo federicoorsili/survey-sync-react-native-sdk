@@ -8,8 +8,8 @@ export const createStyles = (isDark: boolean) => {
   return StyleSheet.create({
     container: {
       width: '100%',
-      paddingVertical: 20,
-      paddingHorizontal: 16,
+      // paddingVertical: 20,
+      // paddingHorizontal: 0,
     },
     textInput: {
       marginVertical: 16,
@@ -43,7 +43,8 @@ export const createStyles = (isDark: boolean) => {
     },
 
     option: {
-      paddingVertical: 12,
+      minHeight: 60,
+      paddingVertical: 16,
       paddingHorizontal: 16,
       borderRadius: 8,
       backgroundColor: theme.background.primary,
@@ -55,9 +56,9 @@ export const createStyles = (isDark: boolean) => {
     },
 
     selectedOption: {
-      backgroundColor: theme.text.primary,
-      borderColor: theme.text.primary,
-      ...theme.shadows.tiny,
+      backgroundColor: theme.primaryColor,
+      // borderColor: theme.text.primary,
+      // ...theme.shadows.tiny,
     },
 
     optionImageText: {
@@ -73,15 +74,15 @@ export const createStyles = (isDark: boolean) => {
     },
 
     optionText: {
-      fontSize: theme.sizes.medium,
+      fontSize: 12,
       color: theme.text.primary,
       textAlign: 'center',
-      fontFamily: theme.font.regular,
+      fontFamily: theme.font.medium,
     },
 
     selectedOptionText: {
-      color: theme.background.primary,
-      fontFamily: theme.font.bold,
+      // color: theme.background.primary,
+      fontFamily: theme.font.medium,
     },
 
     imageOptionContainer: {
