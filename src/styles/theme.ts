@@ -35,6 +35,8 @@ const THEME = {
   mainColor: '#333C4D',
   primaryColor: '#D1FF61',
   primaryColorOpacity60: '#D1FF6199',
+  onPrimaryColor: '#000000',
+  onPrimaryColorOpacity60: '#00000099',
 
   primary: '#64748b',
   lightPrimary: 'red',

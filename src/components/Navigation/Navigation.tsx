@@ -55,12 +55,7 @@ const Navigation = ({
             }
           }}
         >
-          <Text
-            style={[
-              styles.buttonText,
-              answerRequired && styles.buttonTextDisabled,
-            ]}
-          >
+          <Text style={[answerRequired && styles.buttonTextDisabled]}>
             {currentQuestionIndex < lastIndex ? 'AVANTI' : 'INVIA'}
           </Text>
         </TouchableOpacity>

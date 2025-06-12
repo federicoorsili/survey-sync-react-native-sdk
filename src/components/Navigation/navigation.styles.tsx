@@ -26,9 +26,14 @@ export const createStyles = (isDark: boolean) => {
       // borderWidth: 1,
       // borderStyle: 'solid',
       // paddingHorizontal: 36,
+
+      fontSize: 16,
+      fontFamily: theme.font.semiBold,
+
       paddingVertical: 14,
       alignItems: 'center',
       backgroundColor: theme.primaryColor,
+      color: theme.onPrimaryColor,
       // ...theme.shadows.tiny,
     },
 
@@ -37,7 +42,7 @@ export const createStyles = (isDark: boolean) => {
     },
 
     buttonTextDisabled: {
-      color: theme.text.primaryOpacity60,
+      color: theme.onPrimaryColorOpacity60,
     },
 
     // Secondary button (Back)

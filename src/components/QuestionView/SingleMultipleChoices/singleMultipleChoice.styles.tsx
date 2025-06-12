@@ -81,7 +81,7 @@ export const createStyles = (isDark: boolean) => {
     },
 
     selectedOptionText: {
-      // color: theme.background.primary,
+      color: theme.onPrimaryColor,
       fontFamily: theme.font.medium,
     },
 
