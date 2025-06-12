@@ -33,8 +33,8 @@ const SIZES = {
 
 const THEME = {
   mainColor: '#333C4D',
-  primaryColor: '#036F3A',
-  primaryColorOpacity60: '#036F3A99',
+  primaryColor: '#D1FF61',
+  primaryColorOpacity60: '#D1FF6199',
 
   primary: '#64748b',
   lightPrimary: 'red',
@@ -53,7 +53,7 @@ const THEME = {
     secondary: '#575757',
     inverse: '#1F2937',
     tertiary: '#575757',
-    myMarchePrimary: '#036F3A',
+    myMarchePrimary: '#D1FF61',
   },
 
   border: {
